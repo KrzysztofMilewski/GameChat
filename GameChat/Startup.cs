@@ -61,6 +61,11 @@ namespace GameChat.Web
                     ValidateAudience = false
                 };
             });
+
+            services.AddSpaStaticFiles(spa =>
+            {
+                spa.RootPath = "wwwroot";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,10 +75,17 @@ namespace GameChat.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseAuthentication();
 
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
             app.UseMvc();
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "client-app";
+            });
         }
     }
 }

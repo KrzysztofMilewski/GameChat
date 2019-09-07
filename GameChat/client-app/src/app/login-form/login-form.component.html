@@ -1,1 +1,16 @@
-<p>login-form works!</p>
+<h2>Login now</h2>
+
+<form [formGroup]="loginForm" (submit)="onSubmit()">
+
+    <label>
+        Username
+        <input type="text" formControlName="username" />
+    </label>
+
+    <label>
+        Password
+        <input type="password" formControlName="password"/>
+    </label>
+
+    <button type="submit">Login</button>
+</form>

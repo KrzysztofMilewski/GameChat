@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GameChat.Core\GameChat.Core.csproj" />
   </ItemGroup>
 
@@ -32,6 +28,10 @@
     <TypeScriptCompile Include="client-app\src\app\helpers\JwtInterceptor.ts" />
     <TypeScriptCompile Include="client-app\src\app\models\user.ts" />
     <TypeScriptCompile Include="client-app\src\app\services\authenticationService.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
