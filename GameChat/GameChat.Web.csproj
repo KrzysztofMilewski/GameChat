@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="client-app\src\app\guards\auth.ts" />
+    <None Remove="client-app\src\app\helpers\JwtInterceptor.ts" />
+    <None Remove="client-app\src\app\models\user.ts" />
+    <None Remove="client-app\src\app\services\authenticationService.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameChat.Core\GameChat.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="client-app\src\app\guards\auth.ts" />
+    <TypeScriptCompile Include="client-app\src\app\helpers\JwtInterceptor.ts" />
+    <TypeScriptCompile Include="client-app\src\app\models\user.ts" />
+    <TypeScriptCompile Include="client-app\src\app\services\authenticationService.ts" />
+  </ItemGroup>
+
+</Project>
