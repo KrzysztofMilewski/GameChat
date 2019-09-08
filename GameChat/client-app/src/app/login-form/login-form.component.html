@@ -1,16 +1,26 @@
-<h2>Login now</h2>
+<div class="row mx-2 mt-5 justify-content-center">
+    <div class="col col-sm-8 col-md-6 col-lg-4 py-4 shadow bg-white rounded">
 
-<form [formGroup]="loginForm" (submit)="onSubmit()">
+        <h4 class="display-4 text-center mb-4">Login</h4>
 
-    <label>
-        Username
-        <input type="text" formControlName="username" />
-    </label>
+        <form [formGroup]="loginForm" (submit)="onSubmit()" class="d-flex flex-column">
 
-    <label>
-        Password
-        <input type="password" formControlName="password"/>
-    </label>
+            <input type="text" formControlName="username" placeholder="Username" class="form-control form-control-lg my-2" />
 
-    <button type="submit" (submit)="onSubmit()">Login</button>
-</form>
+            <input type="password" formControlName="password" placeholder="Password" class="form-control form-control-lg my-2"/>
+
+            <button class="btn btn-primary btn-lg my-3" type="submit" (submit)="onSubmit()">Sign in</button>
+
+            <div class="alert alert-danger" *ngIf="invalidCredentials">
+                <p class="text-center my-auto">
+                    <strong>Invalid credentials</strong>
+                </p>
+            </div>
+            <div class="alert alert-danger" *ngIf="unexpectedError">
+                <p class="text-center my-auto">
+                    <strong>Unexpected error occured</strong>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

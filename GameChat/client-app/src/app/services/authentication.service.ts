@@ -15,4 +15,11 @@ export class AuthenticationService {
     logout() {
         localStorage.removeItem('currentUser')
     }
+
+    isLoggedIn() {
+        if (localStorage.getItem('currentUser'))
+            return true
+        else
+            return false
+    }
 }
