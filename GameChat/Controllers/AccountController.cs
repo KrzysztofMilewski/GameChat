@@ -38,7 +38,7 @@ namespace GameChat.Web.Controllers
             var result = await _userService.AuthenticateAsync(userDto);
 
             if (result.Success)
-                return Ok(result.Data);
+                return Ok(new { token = result.Data });
             else
                 return Unauthorized(result.Data);
         }

@@ -1,16 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="client-app\src\app\guards\auth.ts" />
     <None Remove="client-app\src\app\helpers\JwtInterceptor.ts" />
     <None Remove="client-app\src\app\models\user.ts" />
-    <None Remove="client-app\src\app\services\authenticationService.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +26,6 @@
     <TypeScriptCompile Include="client-app\src\app\guards\auth.ts" />
     <TypeScriptCompile Include="client-app\src\app\helpers\JwtInterceptor.ts" />
     <TypeScriptCompile Include="client-app\src\app\models\user.ts" />
-    <TypeScriptCompile Include="client-app\src\app\services\authenticationService.ts" />
   </ItemGroup>
 
   <ItemGroup>
