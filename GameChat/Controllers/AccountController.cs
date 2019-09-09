@@ -26,7 +26,7 @@ namespace GameChat.Web.Controllers
             var result = await _userService.CreateNewAccountAsync(userDto);
 
             if (result.Success)
-                return Ok(result.Message);
+                return Ok(new { result.Message });
             else
                 return BadRequest(result.Message);
         }

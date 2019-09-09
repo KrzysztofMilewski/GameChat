@@ -9,10 +9,8 @@ import { Router } from '@angular/router';
 })
 export class NavigationBarComponent implements OnInit {
 
-    private _isLoggedIn: boolean
     get isLoggedIn() {
-        this._isLoggedIn = this.authService.isLoggedIn()
-        return this._isLoggedIn
+        return this.authService.isLoggedIn()       
     }
 
     constructor(

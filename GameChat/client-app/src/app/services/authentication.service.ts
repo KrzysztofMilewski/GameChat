@@ -12,6 +12,10 @@ export class AuthenticationService {
         return this.http.post('/api/account/authenticate', { username, password })
     }
 
+    register(username: string, password: string) {
+        return this.http.post('/api/account/create', { username, password })
+    }
+
     logout() {
         localStorage.removeItem('currentUser')
     }

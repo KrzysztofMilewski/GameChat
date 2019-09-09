@@ -25,6 +25,14 @@ export class LoginFormComponent implements OnInit {
         })
     }
 
+    get username() {
+        return this.loginForm.controls.username
+    }
+
+    get password() {
+        return this.loginForm.controls.password
+    }
+
     onSubmit() {
         if (!this.loginForm.valid)
             return;

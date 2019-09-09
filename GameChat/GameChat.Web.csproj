@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="client-app\src\app\guards\auth.ts" />
     <None Remove="client-app\src\app\helpers\JwtInterceptor.ts" />
+    <None Remove="client-app\src\app\helpers\PasswordsMatchValidator.ts" />
     <None Remove="client-app\src\app\models\user.ts" />
   </ItemGroup>
 
@@ -25,6 +26,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="client-app\src\app\guards\auth.ts" />
     <TypeScriptCompile Include="client-app\src\app\helpers\JwtInterceptor.ts" />
+    <TypeScriptCompile Include="client-app\src\app\helpers\PasswordsMatchValidator.ts" />
     <TypeScriptCompile Include="client-app\src\app\models\user.ts" />
   </ItemGroup>
 

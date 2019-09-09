@@ -3,3 +3,14 @@
 .clickable{
     cursor: pointer;
 }
+
+input.ng-touched.ng-invalid {
+    border-style: solid;
+    border-width: 2px;
+    border-color: #dc3545;
+    background-color: #f3bbc0;
+}
+
+    input.ng-touched.ng-invalid.form-control:focus {
+        box-shadow: 0 0 0 .2rem rgba(220, 53, 69,.25);
+    }

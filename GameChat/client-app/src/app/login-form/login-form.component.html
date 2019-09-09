@@ -5,11 +5,22 @@
 
         <form [formGroup]="loginForm" (submit)="onSubmit()" class="d-flex flex-column">
 
-            <input type="text" formControlName="username" placeholder="Username" class="form-control form-control-lg my-2" />
+            <input type="text" formControlName="username" placeholder="Username" class="form-control form-control-lg my-2" required />
+            <div *ngIf="username.errors && username.touched">
+                <p *ngIf="username.errors.required">
+                    <strong class="text-danger">Username is required</strong>
+                </p>
+            </div>
 
-            <input type="password" formControlName="password" placeholder="Password" class="form-control form-control-lg my-2"/>
+            <input type="password" formControlName="password" placeholder="Password" class="form-control form-control-lg my-2" />
+            <div *ngIf="password.errors && password.touched">
+                <p *ngIf="password.errors.required">
+                    <strong class="text-danger">Password is required</strong>
+                </p>
+            </div>
 
-            <button class="btn btn-primary btn-lg my-3" type="submit" (submit)="onSubmit()">Sign in</button>
+
+            <button class="btn btn-primary btn-lg my-3" type="submit" (submit)="onSubmit()" [disabled]="loginForm.invalid">Sign in</button>
 
             <div class="alert alert-danger" *ngIf="invalidCredentials">
                 <p class="text-center my-auto">

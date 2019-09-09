@@ -1,0 +1,53 @@
+<div class="row mx-2 mt-5 justify-content-center">
+    <div class="col col-sm-8 col-md-6 col-lg-4 py-4 shadow bg-white rounded">
+
+        <h4 class="display-4 text-center mb-4">New account</h4>
+
+        <form [formGroup]="registrationForm" (submit)="onSubmit()" class="d-flex flex-column">
+
+            <input type="text" placeholder="Username" formControlName="username" class="form-control form-control-lg my-2" required />
+            <div *ngIf="username.errors && username.touched">
+                <p *ngIf="username.errors.required" class="text-danger">
+                    <strong>Username is required</strong>
+                </p>
+                <p *ngIf="username.errors.minlength" class="text-danger">
+                    <strong>Username must be at least 6 characters long</strong>
+                </p>
+            </div>
+
+
+            <input type="password" placeholder="Password" formControlName="password" class="form-control form-control-lg my-2" required />
+            <div *ngIf="password.errors && password.touched">
+                <p *ngIf="password.errors.required" class="text-danger">
+                    <strong>Password is required</strong>
+                </p>
+                <p *ngIf="password.errors.pattern" class="text-danger">
+                    <strong>Password must be 8-16 characters long and cannot contain space</strong>
+                </p>
+            </div>
+
+
+            <input type="password" placeholder="Confirm password" formControlName="confirmPassword" class="form-control form-control-lg my-2" required />
+            <div *ngIf="confirmPassword.errors && confirmPassword.touched">
+                <p *ngIf="confirmPassword.errors.required" class="text-danger">
+                    <strong>Please confirm your password</strong>
+                </p>
+                <p *ngIf="confirmPassword.errors.pattern" class="text-danger">
+                    <strong>Password must be 8-16 characters long and cannot contain space</strong>
+                </p>
+            </div>
+
+            <div *ngIf="registrationForm.errors && registrationForm.touched">
+                <p *ngIf="registrationForm.errors.mismatch" class="text-danger">
+                    <strong>Passwords do not match</strong>
+                </p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg my-3" [disabled]="registrationForm.invalid">Register</button>
+
+            <div class="alert alert-danger" *ngIf="errorMessage">
+                <strong>{{ errorMessage }}</strong>
+            </div>
+        </form>
+    </div>
+</div>
