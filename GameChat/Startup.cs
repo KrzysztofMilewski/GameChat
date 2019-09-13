@@ -35,11 +35,15 @@ namespace GameChat.Web
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMessageService, MessageService>();
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection).AddSingleton(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
+
+            #region Authentication system configuration
 
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.UTF8.GetBytes(appSettings.SecretKey);
@@ -61,6 +65,8 @@ namespace GameChat.Web
                     ValidateAudience = false
                 };
             });
+
+            #endregion
 
             services.AddSpaStaticFiles(spa =>
             {

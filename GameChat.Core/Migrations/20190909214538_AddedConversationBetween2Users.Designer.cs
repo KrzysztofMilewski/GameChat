@@ -4,14 +4,16 @@ using GameChat.Core.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameChat.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190909214538_AddedConversationBetween2Users")]
+    partial class AddedConversationBetween2Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +53,9 @@ namespace GameChat.Core.Migrations
 
                     b.Property<DateTime>("DateSent");
 
-                    b.Property<int>("SenderId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ConversationId");
-
-                    b.HasIndex("SenderId");
 
                     b.ToTable("Message");
                 });
@@ -100,11 +98,6 @@ namespace GameChat.Core.Migrations
                     b.HasOne("GameChat.Core.Models.Conversation", "Conversation")
                         .WithMany("Messages")
                         .HasForeignKey("ConversationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GameChat.Core.Models.User", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

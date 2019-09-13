@@ -2,7 +2,6 @@
 using GameChat.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameChat.Web.Controllers
@@ -41,20 +40,6 @@ namespace GameChat.Web.Controllers
                 return Ok(new { token = result.Data });
             else
                 return Unauthorized(result.Data);
-        }
-
-        [HttpGet("private")]
-        public IActionResult Private()
-        {
-            var numbers = Enumerable.Range(1, 20);
-            return Ok(numbers);
-        }
-
-        [AllowAnonymous]
-        [HttpGet("public")]
-        public IActionResult Public()
-        {
-            return Ok("Whatever");
         }
     }
 }

@@ -67,7 +67,11 @@ namespace GameChat.Core.Services
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var jwtToken = new JwtSecurityToken(
-                claims: new[] { new Claim(ClaimTypes.Name, user.Username) },
+                claims: new[]
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.NameIdentifier, userEntity.Id.ToString())
+                },
                 expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: credentials);
 

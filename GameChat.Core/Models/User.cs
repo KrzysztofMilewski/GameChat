@@ -1,4 +1,7 @@
-﻿namespace GameChat.Core.Models
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+namespace GameChat.Core.Models
 {
     public class User
     {
@@ -7,5 +10,12 @@
 
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+
+        public ICollection<Conversation> Conversations { get; set; }
+
+        public User()
+        {
+            Conversations = new Collection<Conversation>();
+        }
     }
 }
