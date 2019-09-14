@@ -1,9 +1,9 @@
 ﻿using GameChat.Core.DTOs;
 using GameChat.Core.Interfaces.Services;
+using GameChat.Web.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GameChat.Web.Controllers
@@ -30,7 +30,7 @@ namespace GameChat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody]MessageDto message)
         {
-            message.SenderId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            message.SenderId = User.GetUserId();
 
             await _messageService.SendMessage(message);
             return Ok();

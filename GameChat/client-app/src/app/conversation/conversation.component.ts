@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Message } from '../models/message';
 
 @Component({
     selector: 'app-conversation',
@@ -10,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ConversationComponent implements OnInit {
 
     private conversationId: number
-    private messageList: string[] = []
+    private messageList: Message[]
     private messageToSend: any = {}
 
 
@@ -27,9 +28,8 @@ export class ConversationComponent implements OnInit {
 
     ngOnInit() {
         this.messageService.loadMessages(this.conversationId).
-            subscribe((data: any[]) => {
-                for (let message of data)
-                    this.messageList.push(message.contents)
+            subscribe((data: Message[]) => {
+                this.messageList = data
             })
     }
 
@@ -37,9 +37,7 @@ export class ConversationComponent implements OnInit {
         //TODO  replace with an object
         this.messageService.sendMessage(this.messageToSend).
             subscribe(m => {
-                console.log("MESSAGES: ");
-                console.log(this.messageList);
-                this.messageList.push('' + this.messageToSend.contents)
+                this.messageList.push(Object.assign({}, this.messageToSend))
                 delete this.messageToSend.contents
             })
     }
