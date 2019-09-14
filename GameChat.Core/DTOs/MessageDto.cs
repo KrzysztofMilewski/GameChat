@@ -9,6 +9,7 @@ namespace GameChat.Core.DTOs
         public int SenderId { get; set; }
 
         public string Contents { get; set; }
+
         public DateTime DateSent { get; set; }
     }
 }

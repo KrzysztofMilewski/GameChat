@@ -14,28 +14,27 @@ namespace GameChat.Core.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region User configuration
+
             modelBuilder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.PasswordSalt).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Username).IsRequired();
+
             #endregion
 
-            #region Conversation configuration
-            modelBuilder.Entity<Conversation>().
-                HasOne(c => c.Participant1).
-                WithMany(u => u.Conversations).
-                HasForeignKey(c => c.Participant1Id).
-                OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Conversation>().
-                HasOne(c => c.Participant2).
-                WithMany().
-                HasForeignKey(c => c.Participant2Id).
-                OnDelete(DeleteBehavior.Restrict);
+            #region Conversation configuration
+
+            modelBuilder.Entity<Conversation>().HasMany(c => c.Participants).WithOne(p => p.Conversation);
+            modelBuilder.Entity<ConversationParticipant>().HasOne(cp => cp.Participant).WithMany(p => p.Conversations);
+            modelBuilder.Entity<ConversationParticipant>().HasKey(cp => new { cp.ConversationId, cp.ParticipantId });
+
             #endregion
 
             #region Message configuration
+
             modelBuilder.Entity<Message>().Property(m => m.Contents).IsRequired();
             modelBuilder.Entity<Message>().HasOne(m => m.Conversation).WithMany(c => c.Messages);
+
             #endregion
         }
     }

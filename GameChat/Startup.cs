@@ -1,4 +1,5 @@
-﻿using GameChat.Core.Helpers;
+﻿using AutoMapper;
+using GameChat.Core.Helpers;
 using GameChat.Core.Interfaces.Repositories;
 using GameChat.Core.Interfaces.Services;
 using GameChat.Core.Persistence;
@@ -30,6 +31,7 @@ namespace GameChat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

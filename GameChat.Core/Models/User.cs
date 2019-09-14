@@ -11,11 +11,11 @@ namespace GameChat.Core.Models
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
 
-        public ICollection<Conversation> Conversations { get; set; }
+        public ICollection<ConversationParticipant> Conversations { get; set; }
 
         public User()
         {
-            Conversations = new Collection<Conversation>();
+            Conversations = new Collection<ConversationParticipant>();
         }
     }
 }

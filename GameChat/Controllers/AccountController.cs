@@ -32,7 +32,7 @@ namespace GameChat.Web.Controllers
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody]UserLoginRegisterDto userDto)
+        public async Task<IActionResult> Authenticate([FromBody] UserLoginRegisterDto userDto)
         {
             var result = await _userService.AuthenticateAsync(userDto);
 

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameChat.Core.Services
 {
+    //TODO change name to conversation service, start building bussiness logic, including validation etc.
     public class MessageService : IMessageService
     {
         private readonly IUnitOfWork _unitOfWork;
