@@ -31,6 +31,11 @@ export class ConversationComponent implements OnInit {
             subscribe((data: Message[]) => {
                 this.messageList = data
             })
+
+        this.messageService.startConnection()
+        this.messageService.addMessagesListener(receivedMessage => {
+            this.messageList.push(Object.assign({}, receivedMessage))
+        })
     }
 
     onSubmit() {

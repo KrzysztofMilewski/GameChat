@@ -4,6 +4,7 @@ using GameChat.Core.Interfaces.Services;
 using GameChat.Core.Persistence;
 using GameChat.Core.Repositories;
 using GameChat.Core.Services;
+using GameChat.Web.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace GameChat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -85,6 +87,11 @@ namespace GameChat.Web
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseSignalR(config =>
+            {
+                config.MapHub<MessageHub>("/messages");
+            });
 
             app.UseMvc();
 

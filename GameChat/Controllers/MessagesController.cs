@@ -1,9 +1,11 @@
 ﻿using GameChat.Core.DTOs;
 using GameChat.Core.Interfaces.Services;
+using GameChat.Web.Hubs;
 using GameChat.Web.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace GameChat.Web.Controllers
@@ -14,10 +16,12 @@ namespace GameChat.Web.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IMessageService _messageService;
+        private readonly IHubContext<MessageHub> _hubContext;
 
-        public MessagesController(IMessageService messageService)
+        public MessagesController(IMessageService messageService, IHubContext<MessageHub> hubContext)
         {
             _messageService = messageService;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -33,6 +37,7 @@ namespace GameChat.Web.Controllers
             message.SenderId = User.GetUserId();
 
             await _messageService.SendMessage(message);
+            await _hubContext.Clients.All.SendAsync("SendMessage", message);
             return Ok();
         }
     }
