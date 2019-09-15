@@ -27,6 +27,7 @@ export class ConversationComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.conversationId)
         this.messageService.loadMessages(this.conversationId).
             subscribe((data: Message[]) => {
                 this.messageList = data
@@ -42,7 +43,7 @@ export class ConversationComponent implements OnInit {
         //TODO  replace with an object
         this.messageService.sendMessage(this.messageToSend).
             subscribe(m => {
-                this.messageList.push(Object.assign({}, this.messageToSend))
+                //this.messageList.push(Object.assign({}, this.messageToSend))
                 delete this.messageToSend.contents
             })
     }

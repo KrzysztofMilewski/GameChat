@@ -6,6 +6,7 @@ namespace GameChat.Core.Interfaces.Repositories
     {
         IUserRepository UserRepository { get; }
         IMessageRepository MessageRepository { get; }
+        IConversationRepository ConversationRepository { get; }
 
         Task CompleteTransactionAsync();
     }

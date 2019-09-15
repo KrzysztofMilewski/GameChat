@@ -28,7 +28,13 @@ namespace GameChat.Web.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetConversationMessages(int id)
         {
-            return Ok(await _messageService.GetMessagesForConversation(id));
+            var currentUserId = User.GetUserId();
+            var result = await _messageService.GetMessagesForConversation(id, currentUserId);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+            else
+                return Ok(result.Data);
         }
 
         [HttpPost]
@@ -36,9 +42,16 @@ namespace GameChat.Web.Controllers
         {
             message.SenderId = User.GetUserId();
 
-            await _messageService.SendMessage(message);
-            await _hubContext.Clients.All.SendAsync("SendMessage", message);
-            return Ok();
+            var result = await _messageService.SendMessage(message);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+            else
+            {
+                //TODO change return type to saved message and pass through the hub
+                await _hubContext.Clients.All.SendAsync("SendMessage", message);
+                return Ok();
+            }
         }
     }
 }

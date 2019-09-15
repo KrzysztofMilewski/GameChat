@@ -1,4 +1,6 @@
-﻿using GameChat.Core.DTOs;
+﻿using AutoMapper;
+using GameChat.Core.DTOs;
+using GameChat.Core.Helpers;
 using GameChat.Core.Interfaces.Repositories;
 using GameChat.Core.Interfaces.Services;
 using GameChat.Core.Models;
@@ -8,42 +10,51 @@ using System.Threading.Tasks;
 
 namespace GameChat.Core.Services
 {
-    //TODO change name to conversation service, start building bussiness logic, including validation etc.
     public class MessageService : IMessageService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public MessageService(IUnitOfWork unitOfWork)
+        public MessageService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task SendMessage(MessageDto messageDto)
+        public async Task<ServiceResult> SendMessage(MessageDto messageDto)
         {
-            var message = new Message()
-            {
-                Contents = messageDto.Contents,
-                ConversationId = messageDto.ConversationId,
-                DateSent = DateTime.Now,
-                SenderId = messageDto.SenderId
-            };
+            bool isUserParticipating =
+                await _unitOfWork.
+                ConversationRepository.
+                IsUserParticipatingAsync(messageDto.ConversationId, messageDto.SenderId);
 
-            await _unitOfWork.MessageRepository.AddMessageAsync(message);
+            if (!isUserParticipating)
+                return new ServiceResult(false, "Specified user is not a part of this conversation");
+
+            if (string.IsNullOrWhiteSpace(messageDto.Contents))
+                return new ServiceResult(false, "Message cannot be empty");
+
+            messageDto.DateSent = DateTime.Now;
+            await _unitOfWork.MessageRepository.AddMessageAsync(_mapper.Map<Message>(messageDto));
             await _unitOfWork.CompleteTransactionAsync();
+
+            return new ServiceResult(true, "Message has been sent");
         }
 
-        public async Task<IEnumerable<MessageDto>> GetMessagesForConversation(int conversationId)
+        public async Task<ServiceResult<IEnumerable<MessageDto>>> GetMessagesForConversation(int conversationId, int requestingUserId)
         {
-            var messages = await _unitOfWork.MessageRepository.GetMessagesForConversation(conversationId);
+            bool isUserParticipating =
+                await _unitOfWork.
+                ConversationRepository.
+                IsUserParticipatingAsync(conversationId, requestingUserId);
 
-            //TODO Replace with AutoMapper, change return types to ServiceResult
+            if (!isUserParticipating)
+                return new ServiceResult<IEnumerable<MessageDto>>(false, "User has no access to specified conversation");
 
-            var messagesDto = new List<MessageDto>();
+            var messages = await _unitOfWork.MessageRepository.GetMessagesForConversationAsync(conversationId);
+            var messagesDto = _mapper.Map<IEnumerable<MessageDto>>(messages);
 
-            foreach (var message in messages)
-                messagesDto.Add(new MessageDto() { Contents = message.Contents, DateSent = message.DateSent, SenderId = message.SenderId, ConversationId = message.ConversationId });
-
-            return messagesDto;
+            return new ServiceResult<IEnumerable<MessageDto>>(true, "Messages retrieved successfully", messagesDto);
         }
     }
 }

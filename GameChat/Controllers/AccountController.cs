@@ -41,5 +41,13 @@ namespace GameChat.Web.Controllers
             else
                 return Unauthorized(result.Data);
         }
+
+        //TODO this method is for temporary UI, replace it with another method which supports filtering and pagination
+        [HttpGet("all")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userService.GetAllUsers();
+            return Ok(users);
+        }
     }
 }

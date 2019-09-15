@@ -22,7 +22,7 @@ namespace GameChat.Core.Repositories
             await _messages.AddAsync(message);
         }
 
-        public async Task<IEnumerable<Message>> GetMessagesForConversation(int conversationId)
+        public async Task<IEnumerable<Message>> GetMessagesForConversationAsync(int conversationId)
         {
             return await _messages.Where(m => m.ConversationId == conversationId).OrderBy(m => m.DateSent).ToListAsync();
         }

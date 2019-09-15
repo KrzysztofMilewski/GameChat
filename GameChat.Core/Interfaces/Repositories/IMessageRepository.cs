@@ -7,6 +7,6 @@ namespace GameChat.Core.Interfaces.Repositories
     public interface IMessageRepository
     {
         Task AddMessageAsync(Message message);
-        Task<IEnumerable<Message>> GetMessagesForConversation(int conversationId);
+        Task<IEnumerable<Message>> GetMessagesForConversationAsync(int conversationId);
     }
 }

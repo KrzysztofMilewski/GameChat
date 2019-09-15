@@ -31,7 +31,7 @@ namespace GameChat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(MappingProfile));
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -40,8 +40,11 @@ namespace GameChat.Web
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IConversationRepository, ConversationRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IConversationService, ConversationService>();
             services.AddScoped<IMessageService, MessageService>();
 
             var appSettingsSection = Configuration.GetSection("AppSettings");

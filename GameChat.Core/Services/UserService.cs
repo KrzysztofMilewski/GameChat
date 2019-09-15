@@ -1,4 +1,5 @@
-﻿using GameChat.Core.DTOs;
+﻿using AutoMapper;
+using GameChat.Core.DTOs;
 using GameChat.Core.Helpers;
 using GameChat.Core.Interfaces.Repositories;
 using GameChat.Core.Interfaces.Services;
@@ -18,11 +19,13 @@ namespace GameChat.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly AppSettings _settings;
+        private readonly IMapper _mapper;
 
-        public UserService(IUnitOfWork unitOfWork, AppSettings settings)
+        public UserService(IUnitOfWork unitOfWork, AppSettings settings, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _settings = settings;
+            _mapper = mapper;
         }
 
         public async Task<ServiceResult> CreateNewAccountAsync(UserLoginRegisterDto user)
@@ -78,6 +81,14 @@ namespace GameChat.Core.Services
             var tokenAsString = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
             return new ServiceResult<string>(true, "Authentication successful", tokenAsString);
+        }
+
+        //TODO this is temporary
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        {
+            var users = await _unitOfWork.UserRepository.GetAll();
+            var dto = _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
+            return dto;
         }
 
         #region Helpers for hashing and validating password

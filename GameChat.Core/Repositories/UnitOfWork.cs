@@ -8,16 +8,21 @@ namespace GameChat.Core.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public UnitOfWork(ApplicationDbContext context, IUserRepository userRepository, IMessageRepository messageRepository)
+        public IUserRepository UserRepository { get; private set; }
+        public IMessageRepository MessageRepository { get; private set; }
+        public IConversationRepository ConversationRepository { get; private set; }
+
+        public UnitOfWork(
+            ApplicationDbContext context,
+            IUserRepository userRepository,
+            IMessageRepository messageRepository,
+            IConversationRepository conversationRepository)
         {
             _context = context;
             UserRepository = userRepository;
             MessageRepository = messageRepository;
+            ConversationRepository = conversationRepository;
         }
-
-        public IUserRepository UserRepository { get; private set; }
-
-        public IMessageRepository MessageRepository { get; private set; }
 
         public async Task CompleteTransactionAsync()
         {
