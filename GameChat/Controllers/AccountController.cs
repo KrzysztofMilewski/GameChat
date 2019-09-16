@@ -1,5 +1,6 @@
 ﻿using GameChat.Core.DTOs;
 using GameChat.Core.Interfaces.Services;
+using GameChat.Web.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -40,6 +41,18 @@ namespace GameChat.Web.Controllers
                 return Ok(new { token = result.Data });
             else
                 return Unauthorized(result.Data);
+        }
+
+        [HttpGet("current")]
+        public IActionResult GetCurrentUser()
+        {
+            var currentUser = new UserDto()
+            {
+                Id = User.GetUserId(),
+                Username = User.Identity.Name
+            };
+
+            return Ok(currentUser);
         }
 
         //TODO this method is for temporary UI, replace it with another method which supports filtering and pagination

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Message } from '../models/message';
+import { UsersService } from '../services/users.service';
 
 @Component({
     selector: 'app-conversation',
@@ -12,22 +13,28 @@ export class ConversationComponent implements OnInit {
 
     private conversationId: number
     private messageList: Message[]
+
+    //TODO change to an object
     private messageToSend: any = {}
+    //TODO add user class
+    private currentUser: any = {}
 
 
     constructor(
         private messageService: MessagesService,
         private activatedRoute: ActivatedRoute,
-        private router: Router) {
+        private usersService: UsersService) {
 
         activatedRoute.params.subscribe(p => {
             this.conversationId = +p['id']
             this.messageToSend.conversationId = this.conversationId
         })
+
+        usersService.getCurrentUser().
+            subscribe(data => this.currentUser = data)
     }
 
     ngOnInit() {
-        console.log(this.conversationId)
         this.messageService.loadMessages(this.conversationId).
             subscribe((data: Message[]) => {
                 this.messageList = data
@@ -43,8 +50,11 @@ export class ConversationComponent implements OnInit {
         //TODO  replace with an object
         this.messageService.sendMessage(this.messageToSend).
             subscribe(m => {
-                //this.messageList.push(Object.assign({}, this.messageToSend))
                 delete this.messageToSend.contents
             })
+    }
+
+    isMessageMine(senderId: number) {
+        return senderId == this.currentUser.id ? true : false
     }
 }

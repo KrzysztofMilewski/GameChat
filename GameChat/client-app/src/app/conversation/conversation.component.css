@@ -1,0 +1,28 @@
+:host{
+    height: calc(100% - 56px);
+    display: block;
+}
+
+.message-container{
+    border-radius: 0.5rem;
+}
+
+.my-message {
+    margin-left: auto !important;
+    background-color: #f8f9fa;
+    max-width:80%;
+}
+
+.other-message {
+    margin-right: auto !important;
+    background-color: #65ee16;
+    max-width: 80%;
+}
+
+.conversation-container{
+    overflow: auto;
+}
+
+.conversation-outer-container {
+    max-height: calc(100% - 1rem)
+}

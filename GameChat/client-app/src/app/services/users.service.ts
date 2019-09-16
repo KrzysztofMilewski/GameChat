@@ -11,4 +11,8 @@ export class UsersService {
     getUsers() {
         return this.http.get('/api/account/all')
     }
+
+    getCurrentUser() {
+        return this.http.get('/api/account/current')
+    }
 }
