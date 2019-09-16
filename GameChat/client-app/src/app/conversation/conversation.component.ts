@@ -50,7 +50,7 @@ export class ConversationComponent implements OnInit {
         //TODO  replace with an object
         this.messageService.sendMessage(this.messageToSend).
             subscribe(m => {
-                delete this.messageToSend.contents
+                this.messageToSend.contents = ''
             })
     }
 
