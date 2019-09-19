@@ -6,7 +6,7 @@ namespace GameChat.Core.DTOs
     {
         public int ConversationId { get; set; }
 
-        public int SenderId { get; set; }
+        public UserDto Sender { get; set; }
 
         public string Contents { get; set; }
 

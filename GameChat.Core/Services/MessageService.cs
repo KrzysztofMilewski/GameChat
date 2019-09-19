@@ -26,7 +26,7 @@ namespace GameChat.Core.Services
             bool isUserParticipating =
                 await _unitOfWork.
                 ConversationRepository.
-                IsUserParticipatingAsync(messageDto.ConversationId, messageDto.SenderId);
+                IsUserParticipatingAsync(messageDto.ConversationId, messageDto.Sender.Id);
 
             if (!isUserParticipating)
                 return new ServiceResult(false, "Specified user is not a part of this conversation");

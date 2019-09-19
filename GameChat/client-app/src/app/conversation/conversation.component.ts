@@ -3,6 +3,8 @@ import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from '../models/message';
 import { UsersService } from '../services/users.service';
+import { forkJoin } from 'rxjs';
+import { User } from '../models/user';
 
 @Component({
     selector: 'app-conversation',
@@ -11,27 +13,25 @@ import { UsersService } from '../services/users.service';
 })
 export class ConversationComponent implements OnInit {
 
+    //TODO add fetching data about conversation (title, participants etc.)
+
+    private currentUser: User
     private conversationId: number
+
     private messageList: Message[]
-
-    //TODO change to an object
-    private messageToSend: any = {}
-    //TODO add user class
-    private currentUser: any = {}
-
+    private messageToSend: Message = new Message()
 
     constructor(
         private messageService: MessagesService,
         private activatedRoute: ActivatedRoute,
         private usersService: UsersService) {
 
-        activatedRoute.params.subscribe(p => {
-            this.conversationId = +p['id']
-            this.messageToSend.conversationId = this.conversationId
-        })
+        this.messageToSend.conversationId = this.conversationId = +activatedRoute.snapshot.paramMap.get('id')
 
         usersService.getCurrentUser().
-            subscribe(data => this.currentUser = data)
+            subscribe(user => {
+                this.currentUser = this.messageToSend.sender = user as User
+            })
     }
 
     ngOnInit() {
@@ -47,7 +47,6 @@ export class ConversationComponent implements OnInit {
     }
 
     onSubmit() {
-        //TODO  replace with an object
         this.messageService.sendMessage(this.messageToSend).
             subscribe(m => {
                 this.messageToSend.contents = ''

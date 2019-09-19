@@ -38,7 +38,6 @@ export class UserPanelComponent implements OnInit {
             })
     }
 
-
     //TODO Add redirection later on
     createConversation(userId) {
         console.log(userId)

@@ -8,12 +8,12 @@
                 <hr class="my-1 mr-2" />
             </div>
 
-            <div class="flex-fill conversation-container pr-2">
+            <div class="flex-fill conversation-container pr-2" #scrollMe [scrollTop]="scrollMe.scrollHeight">
                 <div class="d-flex flex-column mt-2">
 
                     <div *ngFor="let m of messageList"
-                         [class.my-message]="isMessageMine(m.senderId)"
-                         [class.other-message]="!isMessageMine(m.senderId)"
+                         [class.my-message]="isMessageMine(m.sender.id)"
+                         [class.other-message]="!isMessageMine(m.sender.id)"
                          class="p-2 message-container">
 
                         {{m.contents}}

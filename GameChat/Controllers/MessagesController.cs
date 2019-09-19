@@ -40,7 +40,8 @@ namespace GameChat.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody]MessageDto message)
         {
-            message.SenderId = User.GetUserId();
+            if (message.Sender.Id != User.GetUserId())
+                return BadRequest();
 
             var result = await _messageService.SendMessage(message);
 
@@ -48,7 +49,6 @@ namespace GameChat.Web.Controllers
                 return BadRequest(result.Message);
             else
             {
-                //TODO change return type to saved message and pass through the hub
                 await _hubContext.Clients.All.SendAsync("SendMessage", message);
                 return Ok();
             }
