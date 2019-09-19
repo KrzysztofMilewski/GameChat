@@ -2,6 +2,8 @@
 using GameChat.Core.Helpers;
 using GameChat.Core.Interfaces.Repositories;
 using GameChat.Core.Interfaces.Services;
+using GameChat.Core.Models;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,20 +18,28 @@ namespace GameChat.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ServiceResult> CreateNewConversation(ConversationDto conversation)
+        public async Task<ServiceResult<int>> CreateNewConversation(ConversationDto conversationDto)
         {
-            if (string.IsNullOrWhiteSpace(conversation.Title))
-                return new ServiceResult(false, "Conversation title cannot be empty. Please specify the title");
+            if (string.IsNullOrWhiteSpace(conversationDto.Title))
+                return new ServiceResult<int>(false, "Conversation title cannot be empty. Please specify the title");
 
-            if (conversation.Participants.Count < 2)
-                return new ServiceResult(false, "Conversation must have at least 2 participants");
+            if (conversationDto.Participants.Count < 2)
+                return new ServiceResult<int>(false, "Conversation must have at least 2 participants");
 
-            var participantsIds = conversation.Participants.Select(p => p.Id).ToArray();
+            var participatingUsers = conversationDto.Participants.Select(u => new ConversationParticipant() { ParticipantId = u.Id }).ToList();
 
-            await _unitOfWork.ConversationRepository.CreateNewConversationAsync(conversation.Title, participantsIds);
+            var conversation = new Conversation()
+            {
+                Title = conversationDto.Title,
+                Participants = new Collection<ConversationParticipant>(participatingUsers)
+            };
+
+            await _unitOfWork.ConversationRepository.CreateNewConversationAsync(conversation);
             await _unitOfWork.CompleteTransactionAsync();
 
-            return new ServiceResult(true, "Conversation created successfully");
+            int id = conversation.Id;
+
+            return new ServiceResult<int>(true, "Conversation created successfully", id);
         }
     }
 }

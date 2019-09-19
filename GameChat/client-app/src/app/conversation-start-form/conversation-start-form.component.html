@@ -1,0 +1,24 @@
+<form (submit)="createConversation()" class="my-2">
+
+    <input type="text" [(ngModel)]="conversation.title" class="form-control my-2" name="title" placeholder="Conversation title"/>
+
+    <tag-input [(ngModel)]="conversation.participants"
+               placeholder="User"
+               secondaryPlaceholder="Type users' names"
+               theme="bootstrap"
+               (onTextChange)="textChanged($event)"
+               [displayBy]="'username'"
+               [identifyBy]="'id'"
+               [onlyFromAutocomplete]="true"
+               name="participants"
+               class="my-2">
+
+        <tag-input-dropdown [autocompleteItems]="usersFromDatabase" [displayBy]="'username'" [identifyBy]="'id'" [showDropdownIfEmpty]="true">
+
+        </tag-input-dropdown>
+
+    </tag-input>
+
+    <button type="submit" class="btn btn-primary mt-2">Start conversation</button>
+
+</form>

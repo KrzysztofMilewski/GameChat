@@ -10,7 +10,6 @@ namespace GameChat.Core.Interfaces.Repositories
         Task<User> FindByUsernameAsync(string username);
         Task<User> FindById(int id);
 
-        //TODO temporary
-        Task<IEnumerable<User>> GetAll();
+        Task<IEnumerable<User>> GetUsers(string filter);
     }
 }

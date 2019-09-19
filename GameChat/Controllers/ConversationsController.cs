@@ -28,7 +28,7 @@ namespace GameChat.Web.Controllers
             if (!result.Success)
                 return BadRequest(result.Message);
             else
-                return Ok();
+                return Ok(new { conversationId = result.Data });
         }
     }
 }

@@ -6,13 +6,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UsersService {
 
+    private endpoint: string = '/api/account'
+
     constructor(private http: HttpClient) { }
 
-    getUsers() {
-        return this.http.get('/api/account/all')
+    getUsers(filter: string) {
+        return this.http.get(this.endpoint + '/all?username=' + filter)
     }
 
     getCurrentUser() {
-        return this.http.get('/api/account/current')
+        return this.http.get(this.endpoint + '/current')
     }
 }

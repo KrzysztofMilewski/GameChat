@@ -3,6 +3,7 @@ using GameChat.Core.Models;
 using GameChat.Core.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameChat.Core.Repositories
@@ -31,10 +32,9 @@ namespace GameChat.Core.Repositories
             return await _users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        //TODO temporary
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetUsers(string filter)
         {
-            return await _users.ToListAsync();
+            return await _users.Where(u => u.Username.Contains(filter)).ToListAsync();
         }
     }
 }

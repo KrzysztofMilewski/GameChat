@@ -83,12 +83,11 @@ namespace GameChat.Core.Services
             return new ServiceResult<string>(true, "Authentication successful", tokenAsString);
         }
 
-        //TODO this is temporary
-        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        public async Task<ServiceResult<IEnumerable<UserDto>>> GetUsers(string filter)
         {
-            var users = await _unitOfWork.UserRepository.GetAll();
+            var users = await _unitOfWork.UserRepository.GetUsers(filter);
             var dto = _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
-            return dto;
+            return new ServiceResult<IEnumerable<UserDto>>(true, "Users retrieved", dto);
         }
 
         #region Helpers for hashing and validating password

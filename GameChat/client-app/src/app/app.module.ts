@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import bootstrap from "bootstrap";
 import * as $ from 'jquery';
+import { TagInputModule } from 'ngx-chips'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { ConversationStartFormComponent } from './conversation-start-form/conversation-start-form.component';
 
 @NgModule({
     declarations: [
@@ -25,13 +28,16 @@ import { ConversationComponent } from './conversation/conversation.component';
         UserPanelComponent,
         RegisterFormComponent,
         ConversationComponent,
+        ConversationStartFormComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        TagInputModule,
+        BrowserAnimationsModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

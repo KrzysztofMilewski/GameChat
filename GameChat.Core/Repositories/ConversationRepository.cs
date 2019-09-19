@@ -2,8 +2,6 @@
 using GameChat.Core.Models;
 using GameChat.Core.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameChat.Core.Repositories
@@ -19,15 +17,8 @@ namespace GameChat.Core.Repositories
             _conversationParticipants = context.Set<ConversationParticipant>();
         }
 
-        public async Task CreateNewConversationAsync(string title, int[] participantsIds)
+        public async Task CreateNewConversationAsync(Conversation conversation)
         {
-            var participatingUsers = participantsIds.Select(id => new ConversationParticipant() { ParticipantId = id }).ToList();
-
-            var conversation = new Conversation()
-            {
-                Title = title,
-                Participants = new Collection<ConversationParticipant>(participatingUsers)
-            };
             await _conversations.AddAsync(conversation);
         }
 

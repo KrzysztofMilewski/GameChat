@@ -9,9 +9,6 @@ namespace GameChat.Core.Interfaces.Services
     {
         Task<ServiceResult<string>> AuthenticateAsync(UserLoginRegisterDto user);
         Task<ServiceResult> CreateNewAccountAsync(UserLoginRegisterDto user);
-
-
-        //TODO temporary
-        Task<IEnumerable<UserDto>> GetAllUsers();
+        Task<ServiceResult<IEnumerable<UserDto>>> GetUsers(string filter);
     }
 }

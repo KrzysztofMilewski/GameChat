@@ -6,6 +6,6 @@ namespace GameChat.Core.Interfaces.Services
 {
     public interface IConversationService
     {
-        Task<ServiceResult> CreateNewConversation(ConversationDto conversation);
+        Task<ServiceResult<int>> CreateNewConversation(ConversationDto conversation);
     }
 }

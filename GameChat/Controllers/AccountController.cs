@@ -55,11 +55,10 @@ namespace GameChat.Web.Controllers
             return Ok(currentUser);
         }
 
-        //TODO this method is for temporary UI, replace it with another method which supports filtering and pagination
         [HttpGet("all")]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]string username)
         {
-            var users = await _userService.GetAllUsers();
+            var users = await _userService.GetUsers(filter: username);
             return Ok(users);
         }
     }
