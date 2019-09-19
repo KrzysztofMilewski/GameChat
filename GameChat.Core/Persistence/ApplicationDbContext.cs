@@ -15,6 +15,7 @@ namespace GameChat.Core.Persistence
         {
             #region User configuration
 
+            modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.PasswordSalt).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Username).IsRequired();
@@ -24,7 +25,10 @@ namespace GameChat.Core.Persistence
 
             #region Conversation configuration
 
+            modelBuilder.Entity<Conversation>().ToTable("Conversations");
             modelBuilder.Entity<Conversation>().HasMany(c => c.Participants).WithOne(p => p.Conversation);
+
+            modelBuilder.Entity<ConversationParticipant>().ToTable("ConversationParticipants");
             modelBuilder.Entity<ConversationParticipant>().HasOne(cp => cp.Participant).WithMany(p => p.Conversations);
             modelBuilder.Entity<ConversationParticipant>().HasKey(cp => new { cp.ConversationId, cp.ParticipantId });
 
@@ -32,6 +36,7 @@ namespace GameChat.Core.Persistence
 
             #region Message configuration
 
+            modelBuilder.Entity<Message>().ToTable("Messages");
             modelBuilder.Entity<Message>().Property(m => m.Contents).IsRequired();
             modelBuilder.Entity<Message>().HasOne(m => m.Conversation).WithMany(c => c.Messages);
 
