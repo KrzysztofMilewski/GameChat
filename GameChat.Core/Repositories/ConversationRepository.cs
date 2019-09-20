@@ -2,6 +2,8 @@
 using GameChat.Core.Models;
 using GameChat.Core.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameChat.Core.Repositories
@@ -27,6 +29,11 @@ namespace GameChat.Core.Repositories
             var user = await _conversationParticipants.SingleOrDefaultAsync(cp => cp.ConversationId == conversationId && cp.ParticipantId == senderId);
 
             return user == null ? false : true;
+        }
+
+        public async Task<IEnumerable<ConversationParticipant>> GetParticipantsAsync(int conversationId)
+        {
+            return await _conversationParticipants.Where(cp => cp.ConversationId == conversationId).ToListAsync();
         }
     }
 }

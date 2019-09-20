@@ -7,7 +7,8 @@ namespace GameChat.Core.Interfaces.Services
 {
     public interface IMessageService
     {
-        Task<ServiceResult> SendMessage(MessageDto messageDto);
-        Task<ServiceResult<IEnumerable<MessageDto>>> GetMessagesForConversation(int conversationId, int requestingUserId);
+        Task<ServiceResult<MessageDto>> SendMessageAsync(MessageDto messageDto);
+        Task<ServiceResult<IEnumerable<MessageDto>>> GetMessagesForConversationAsync(int conversationId, int requestingUserId);
+        Task<ServiceResult> ReadMessageAsync(int messageId, int readingUserId);
     }
 }

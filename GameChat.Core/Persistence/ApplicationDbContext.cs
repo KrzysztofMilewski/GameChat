@@ -22,7 +22,6 @@ namespace GameChat.Core.Persistence
 
             #endregion
 
-
             #region Conversation configuration
 
             modelBuilder.Entity<Conversation>().ToTable("Conversations");
@@ -39,6 +38,15 @@ namespace GameChat.Core.Persistence
             modelBuilder.Entity<Message>().ToTable("Messages");
             modelBuilder.Entity<Message>().Property(m => m.Contents).IsRequired();
             modelBuilder.Entity<Message>().HasOne(m => m.Conversation).WithMany(c => c.Messages);
+
+            #endregion
+
+            #region Unread messages configuration
+
+            modelBuilder.Entity<UnreadMessage>().ToTable("UnreadMessages");
+            modelBuilder.Entity<UnreadMessage>().HasKey(um => new { um.MessageId, um.ParticipantId });
+            modelBuilder.Entity<UnreadMessage>().HasOne(um => um.Message).WithMany(m => m.UsersThatHaventReadMessage);
+            modelBuilder.Entity<UnreadMessage>().HasOne(um => um.Participant).WithMany(p => p.UnreadMessages).OnDelete(DeleteBehavior.Restrict);
 
             #endregion
         }

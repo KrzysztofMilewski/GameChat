@@ -12,10 +12,12 @@ namespace GameChat.Core.Models
         public byte[] PasswordSalt { get; set; }
 
         public ICollection<ConversationParticipant> Conversations { get; set; }
+        public ICollection<UnreadMessage> UnreadMessages { get; set; }
 
         public User()
         {
             Conversations = new Collection<ConversationParticipant>();
+            UnreadMessages = new Collection<UnreadMessage>();
         }
     }
 }

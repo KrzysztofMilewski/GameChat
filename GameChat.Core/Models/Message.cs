@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GameChat.Core.Models
 {
@@ -12,7 +13,11 @@ namespace GameChat.Core.Models
         public User Sender { get; set; }
         public int SenderId { get; set; }
 
+        public bool ReadByAllParticipants { get; set; }
+
         public string Contents { get; set; }
         public DateTime DateSent { get; set; }
+
+        public ICollection<UnreadMessage> UsersThatHaventReadMessage { get; set; }
     }
 }

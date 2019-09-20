@@ -32,4 +32,8 @@ export class MessagesService {
     sendMessage(message) {
         return this.http.post('/api/messages', message)
     }
+
+    markMessageAsRead(messageId: number) {
+        return this.http.delete('/api/messages/' + messageId)
+    }
 }

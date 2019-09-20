@@ -29,7 +29,7 @@ namespace GameChat.Web.Controllers
         public async Task<IActionResult> GetConversationMessages(int id)
         {
             var currentUserId = User.GetUserId();
-            var result = await _messageService.GetMessagesForConversation(id, currentUserId);
+            var result = await _messageService.GetMessagesForConversationAsync(id, currentUserId);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -43,7 +43,7 @@ namespace GameChat.Web.Controllers
             if (message.Sender.Id != User.GetUserId())
                 return BadRequest();
 
-            var result = await _messageService.SendMessage(message);
+            var result = await _messageService.SendMessageAsync(message);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -52,6 +52,17 @@ namespace GameChat.Web.Controllers
                 await _hubContext.Clients.All.SendAsync("SendMessage", message);
                 return Ok();
             }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> ReadMessage(int id)
+        {
+            var result = await _messageService.ReadMessageAsync(id, User.GetUserId());
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+            else
+                return Ok();
         }
     }
 }

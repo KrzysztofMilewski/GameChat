@@ -42,8 +42,6 @@ export class ConversationStartFormComponent implements OnInit {
     }
 
     createConversation() {
-        console.log(this.conversation);
-
         this.conversationsService.createConversation(this.conversation).
             subscribe((result: any) => this.router.navigate(['/conversations/' + result.conversationId]))
     }

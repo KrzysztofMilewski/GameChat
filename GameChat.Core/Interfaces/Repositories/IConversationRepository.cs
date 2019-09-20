@@ -1,4 +1,5 @@
 ﻿using GameChat.Core.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GameChat.Core.Interfaces.Repositories
@@ -7,5 +8,6 @@ namespace GameChat.Core.Interfaces.Repositories
     {
         Task CreateNewConversationAsync(Conversation conversation);
         Task<bool> IsUserParticipatingAsync(int conversationId, int senderId);
+        Task<IEnumerable<ConversationParticipant>> GetParticipantsAsync(int conversationId);
     }
 }

@@ -43,6 +43,11 @@ export class ConversationComponent implements OnInit {
         this.messageService.startConnection()
         this.messageService.addMessagesListener(receivedMessage => {
             this.messageList.push(Object.assign({}, receivedMessage))
+
+            if (receivedMessage.sender.id != this.currentUser.id) {
+                this.messageService.markMessageAsRead(receivedMessage.id).
+                    subscribe(data => console.log(data))
+            }
         })
     }
 
