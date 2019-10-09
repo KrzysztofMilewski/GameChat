@@ -8,8 +8,8 @@ namespace GameChat.Core.Interfaces.Repositories
     {
         Task AddUserAsync(User user);
         Task<User> FindByUsernameAsync(string username);
-        Task<User> FindById(int id);
+        Task<User> FindByIdAsync(int id);
 
-        Task<IEnumerable<User>> GetUsers(string filter);
+        Task<IEnumerable<User>> GetUsersAsync(string filter);
     }
 }

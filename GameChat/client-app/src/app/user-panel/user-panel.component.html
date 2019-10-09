@@ -4,44 +4,17 @@
         <hr class="py-1" />
         <h4>Most recent</h4>
 
-        <!--temporary-->
-        <div class="d-flex py-2 my-2" style="border: solid 1px black;">
+        <div *ngFor="let conv of activeConversations" class="d-flex py-2 my-2 conversation-badge" (click)="navigateToConversation(conv.id)">
             <div class="ml-2">
-                <strong class="my-auto">Private things</strong>
+                <strong class="my-auto"> {{ conv.title }} </strong>
                 <p class="my-auto">
-                    <small>With: Bran Stark</small>
+                    <small>With: {{ displayParticipants(conv) }}</small>
                 </p>
             </div>
             <div class="ml-auto mr-2 my-auto">
-                <i class="fas fa-user fa-2x fa-fw text-secondary"></i>
+                <i class="fas fa-2x fa-fw text-secondary" [ngClass]="isGroupChat(conv)? 'fa-users' : 'fa-user' "></i>
             </div>
         </div>
-
-        <div class="d-flex py-2 my-2" style="border: solid 1px black;">
-            <div class="ml-2">
-                <strong class="my-auto">School chatroom</strong>
-                <p class="my-auto">
-                    <small>Bran Stark, Jon Snow and 3 others</small>
-                </p>
-            </div>
-            <div class="ml-auto mr-2 my-auto">
-                <i class="fas fa-users fa-2x fa-fw text-secondary"></i>
-            </div>
-        </div>
-
-        <div class="d-flex py-2 my-2" style="border: solid 1px black;">
-            <div class="ml-2">
-                <strong class="my-auto">New messages</strong>
-                <span class="badge badge-pill badge-warning ml-1">7</span>
-                <p class="my-auto">
-                    <small>Cersei Lannister and 5 others</small>
-                </p>
-            </div>
-            <div class="ml-auto mr-2 my-auto">
-                <i class="fas fa-users fa-2x fa-fw text-warning"></i>
-            </div>
-        </div>
-        <!--temporary-->
 
         <button class="btn btn-outline-primary" data-toggle="collapse" data-target="#new-chat-form" [attr.aria-expanded]="expanded" (click)="expand()">
             New conversation

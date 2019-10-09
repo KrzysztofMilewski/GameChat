@@ -26,7 +26,8 @@ namespace GameChat.Core.Repositories
 
         public async Task<bool> IsUserParticipatingAsync(int conversationId, int senderId)
         {
-            var user = await _conversationParticipants.SingleOrDefaultAsync(cp => cp.ConversationId == conversationId && cp.ParticipantId == senderId);
+            var user = await _conversationParticipants.
+                SingleOrDefaultAsync(cp => cp.ConversationId == conversationId && cp.ParticipantId == senderId);
 
             return user == null ? false : true;
         }
@@ -34,6 +35,25 @@ namespace GameChat.Core.Repositories
         public async Task<IEnumerable<ConversationParticipant>> GetParticipantsAsync(int conversationId)
         {
             return await _conversationParticipants.Where(cp => cp.ConversationId == conversationId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetParticipantsAsUsersAsync(int conversationId)
+        {
+            return await _conversationParticipants.
+                Include(c => c.Participant).
+                Where(c => c.ConversationId == conversationId).
+                Select(c => c.Participant).
+                ToListAsync();
+        }
+
+        public async Task<IEnumerable<Conversation>> GetConversationsForUser(int userId)
+        {
+            return await _conversationParticipants.
+                Include(cp => cp.Conversation).
+                Where(cp => cp.ParticipantId == userId).
+                Select(c => c.Conversation).
+                ToListAsync();
+
         }
     }
 }

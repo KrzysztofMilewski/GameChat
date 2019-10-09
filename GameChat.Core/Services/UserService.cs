@@ -85,7 +85,7 @@ namespace GameChat.Core.Services
 
         public async Task<ServiceResult<IEnumerable<UserDto>>> GetUsers(string filter)
         {
-            var users = await _unitOfWork.UserRepository.GetUsers(filter);
+            var users = await _unitOfWork.UserRepository.GetUsersAsync(filter);
             var dto = _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
             return new ServiceResult<IEnumerable<UserDto>>(true, "Users retrieved", dto);
         }

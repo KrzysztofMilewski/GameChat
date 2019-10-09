@@ -12,6 +12,7 @@ namespace GameChat.Core.Helpers
 
             CreateMap<Message, MessageDto>();
             CreateMap<User, UserDto>();
+            CreateMap<Conversation, ConversationDto>();
 
             #endregion
 

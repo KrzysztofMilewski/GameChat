@@ -30,5 +30,16 @@ namespace GameChat.Web.Controllers
             else
                 return Ok(new { conversationId = result.Data });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetConversationsForUser()
+        {
+            var result = await _conversationService.GetConversationsForUser(User.GetUserId());
+
+            if (result.Success)
+                return Ok(result.Data);
+            else
+                return BadRequest(result.Message);
+        }
     }
 }

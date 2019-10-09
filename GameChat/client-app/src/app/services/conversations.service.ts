@@ -11,4 +11,8 @@ export class ConversationsService {
     createConversation(conversation) {
         return this.http.post('/api/conversations', conversation)
     }
+
+    getActiveConversations() {
+        return this.http.get('/api/conversations')
+    }
 }

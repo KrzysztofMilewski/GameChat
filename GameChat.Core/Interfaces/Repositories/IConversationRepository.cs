@@ -9,5 +9,7 @@ namespace GameChat.Core.Interfaces.Repositories
         Task CreateNewConversationAsync(Conversation conversation);
         Task<bool> IsUserParticipatingAsync(int conversationId, int senderId);
         Task<IEnumerable<ConversationParticipant>> GetParticipantsAsync(int conversationId);
+        Task<IEnumerable<User>> GetParticipantsAsUsersAsync(int conversationId);
+        Task<IEnumerable<Conversation>> GetConversationsForUser(int userId);
     }
 }

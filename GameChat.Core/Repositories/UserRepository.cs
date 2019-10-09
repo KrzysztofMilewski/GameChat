@@ -27,12 +27,12 @@ namespace GameChat.Core.Repositories
             return await _users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public async Task<User> FindById(int id)
+        public async Task<User> FindByIdAsync(int id)
         {
             return await _users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<IEnumerable<User>> GetUsers(string filter)
+        public async Task<IEnumerable<User>> GetUsersAsync(string filter)
         {
             return await _users.Where(u => u.Username.Contains(filter)).ToListAsync();
         }
