@@ -5,6 +5,8 @@ import { Message } from '../models/message';
 import { UsersService } from '../services/users.service';
 import { forkJoin } from 'rxjs';
 import { User } from '../models/user';
+import { ConversationsService } from '../services/conversations.service';
+import { Conversation } from '../models/conversation';
 
 @Component({
     selector: 'app-conversation',
@@ -15,27 +17,30 @@ export class ConversationComponent implements OnInit {
 
     //TODO add fetching data about conversation (title, participants etc.)
 
+    private conversation: Conversation = new Conversation()
     private currentUser: User
-    private conversationId: number
-
     private messageList: Message[]
     private messageToSend: Message = new Message()
 
     constructor(
         private messageService: MessagesService,
         private activatedRoute: ActivatedRoute,
-        private usersService: UsersService) {
+        private usersService: UsersService,
+        private conversationService: ConversationsService) {
 
-        this.messageToSend.conversationId = this.conversationId = +activatedRoute.snapshot.paramMap.get('id')
+        this.messageToSend.conversationId = this.conversation.id = +activatedRoute.snapshot.paramMap.get('id')
 
         usersService.getCurrentUser().
             subscribe(user => {
                 this.currentUser = this.messageToSend.sender = user as User
             })
+
+        conversationService.getConversationInfo(this.conversation.id).
+            subscribe((data: Conversation) => this.conversation = data)
     }
 
     ngOnInit() {
-        this.messageService.loadMessages(this.conversationId).
+        this.messageService.loadMessages(this.conversation.id).
             subscribe((data: Message[]) => {
                 this.messageList = data
             })
@@ -43,6 +48,12 @@ export class ConversationComponent implements OnInit {
         this.messageService.startConnection()
         this.messageService.addMessagesListener(receivedMessage => {
             this.messageList.push(Object.assign({}, receivedMessage))
+
+            console.log('Current user ');
+            console.log(this.currentUser);
+
+            console.log('Sender');
+            console.log(this.messageToSend.sender);
 
             if (receivedMessage.sender.id != this.currentUser.id) {
                 this.messageService.markMessageAsRead(receivedMessage.id).
@@ -60,5 +71,12 @@ export class ConversationComponent implements OnInit {
 
     isMessageMine(senderId: number) {
         return senderId == this.currentUser.id ? true : false
+    }
+
+    newMessagesBulk(messageIndex: number) {
+        if (messageIndex == 0 || this.messageList[messageIndex].sender.id != this.messageList[messageIndex - 1].sender.id)
+            return true
+        else
+            return false
     }
 }

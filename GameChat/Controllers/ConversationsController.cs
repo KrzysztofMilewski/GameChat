@@ -25,16 +25,27 @@ namespace GameChat.Web.Controllers
             conversation.Participants.Add(new UserDto() { Id = User.GetUserId() });
             var result = await _conversationService.CreateNewConversation(conversation);
 
-            if (!result.Success)
-                return BadRequest(result.Message);
-            else
+            if (result.Success)
                 return Ok(new { conversationId = result.Data });
+            else
+                return BadRequest(result.Message);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetConversationsForUser()
         {
             var result = await _conversationService.GetConversationsForUser(User.GetUserId());
+
+            if (result.Success)
+                return Ok(result.Data);
+            else
+                return BadRequest(result.Message);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetConversationInfo(int id)
+        {
+            var result = await _conversationService.GetConversation(id, User.GetUserId());
 
             if (result.Success)
                 return Ok(result.Data);

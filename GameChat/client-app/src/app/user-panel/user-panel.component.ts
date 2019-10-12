@@ -32,8 +32,6 @@ export class UserPanelComponent implements OnInit {
 
     expand() {
         this.expanded = !this.expanded
-
-        console.log(this.displayParticipants(this.activeConversations[0]))
     }
 
     isGroupChat(conversation): boolean {

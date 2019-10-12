@@ -26,3 +26,17 @@
 .conversation-outer-container {
     max-height: calc(100% - 1rem)
 }
+
+.my-signature{
+    margin-left: auto !important;
+    font-weight:lighter;
+    font-size: 0.8em;
+    color: darkgray;
+}
+
+.other-signature {
+    margin-right: auto !important;
+    font-weight: lighter;
+    font-size: 0.8em;
+    color: darkgray;
+}

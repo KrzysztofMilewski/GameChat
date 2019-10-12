@@ -15,4 +15,8 @@ export class ConversationsService {
     getActiveConversations() {
         return this.http.get('/api/conversations')
     }
+
+    getConversationInfo(conversationId: number) {
+        return this.http.get('/api/conversations/' + conversationId)
+    }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { UsersService } from '../services/users.service';
+import { User } from '../models/user';
 
 @Component({
     selector: 'app-navigation-bar',
@@ -10,14 +12,21 @@ import { Router } from '@angular/router';
 export class NavigationBarComponent implements OnInit {
 
     get isLoggedIn() {
-        return this.authService.isLoggedIn()       
+        return this.authService.isLoggedIn()
     }
+
+    currentUser: User
 
     constructor(
         private authService: AuthenticationService,
-        private router: Router) { }
+        private router: Router,
+        private userService: UsersService) {
 
-    ngOnInit() {
+        userService.getCurrentUser().
+            subscribe((user: User) => this.currentUser = user)
+    }
+
+    ngOnInit() {       
     }
 
     logout() {

@@ -53,7 +53,7 @@ namespace GameChat.Core.Services
             if (user == null)
                 return new ServiceResult<IEnumerable<ConversationDto>>(false, "Specified user does not exist");
 
-            var conversations = await _unitOfWork.ConversationRepository.GetConversationsForUser(userId);
+            var conversations = await _unitOfWork.ConversationRepository.GetConversationsForUserAsync(userId);
             var conversationsDto = _mapper.Map<IEnumerable<ConversationDto>>(conversations);
 
             foreach (var conversation in conversationsDto)
@@ -64,6 +64,26 @@ namespace GameChat.Core.Services
             }
 
             return new ServiceResult<IEnumerable<ConversationDto>>(true, "Conversations retrieved successfully", conversationsDto);
+        }
+
+        public async Task<ServiceResult<ConversationDto>> GetConversation(int conversationId, int requestingUserId)
+        {
+            var isParticipating = await _unitOfWork.ConversationRepository.IsUserParticipatingAsync(conversationId, requestingUserId);
+
+            if (!isParticipating)
+                return new ServiceResult<ConversationDto>(false, "This user is not a part of this conversation");
+
+
+            //TODO fix this (possibly create a stack overflow post for that)
+            var conversation = await _unitOfWork.ConversationRepository.GetConversationAsync(conversationId);
+            conversation.Participants = null;
+            var participants = await _unitOfWork.ConversationRepository.GetParticipantsAsUsersAsync(conversationId);
+
+            var conversationDto = _mapper.Map<ConversationDto>(conversation);
+            var participantsDto = _mapper.Map<IEnumerable<UserDto>>(participants).ToList();
+            conversationDto.Participants = new Collection<UserDto>(participantsDto);
+
+            return new ServiceResult<ConversationDto>(true, "Conversation info successfully retrieved", conversationDto);
         }
     }
 }

@@ -46,14 +46,18 @@ namespace GameChat.Core.Repositories
                 ToListAsync();
         }
 
-        public async Task<IEnumerable<Conversation>> GetConversationsForUser(int userId)
+        public async Task<IEnumerable<Conversation>> GetConversationsForUserAsync(int userId)
         {
             return await _conversationParticipants.
                 Include(cp => cp.Conversation).
                 Where(cp => cp.ParticipantId == userId).
                 Select(c => c.Conversation).
                 ToListAsync();
+        }
 
+        public async Task<Conversation> GetConversationAsync(int conversationId)
+        {
+            return await _conversations.SingleOrDefaultAsync(c => c.Id == conversationId);
         }
     }
 }

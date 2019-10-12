@@ -10,6 +10,7 @@ namespace GameChat.Core.Interfaces.Repositories
         Task<bool> IsUserParticipatingAsync(int conversationId, int senderId);
         Task<IEnumerable<ConversationParticipant>> GetParticipantsAsync(int conversationId);
         Task<IEnumerable<User>> GetParticipantsAsUsersAsync(int conversationId);
-        Task<IEnumerable<Conversation>> GetConversationsForUser(int userId);
+        Task<IEnumerable<Conversation>> GetConversationsForUserAsync(int userId);
+        Task<Conversation> GetConversationAsync(int conversationId);
     }
 }
