@@ -43,7 +43,7 @@ export class LoginFormComponent implements OnInit {
                     if (data && data.token)
                         localStorage.setItem('currentUser', data['token'])
 
-                    this.router.navigate(['/user'])
+                    this.router.navigate(['/user']).then(d => window.location.reload())
                 },
                 error => {
                     if (error.status == 401)

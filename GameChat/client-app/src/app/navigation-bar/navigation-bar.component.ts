@@ -22,11 +22,13 @@ export class NavigationBarComponent implements OnInit {
         private router: Router,
         private userService: UsersService) {
 
-        userService.getCurrentUser().
-            subscribe((user: User) => this.currentUser = user)
+        if (this.isLoggedIn) {
+            userService.getCurrentUser().
+                subscribe((user: User) => this.currentUser = user)
+        }
     }
 
-    ngOnInit() {       
+    ngOnInit() {
     }
 
     logout() {

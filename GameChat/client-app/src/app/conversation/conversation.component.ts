@@ -49,12 +49,6 @@ export class ConversationComponent implements OnInit {
         this.messageService.addMessagesListener(receivedMessage => {
             this.messageList.push(Object.assign({}, receivedMessage))
 
-            console.log('Current user ');
-            console.log(this.currentUser);
-
-            console.log('Sender');
-            console.log(this.messageToSend.sender);
-
             if (receivedMessage.sender.id != this.currentUser.id) {
                 this.messageService.markMessageAsRead(receivedMessage.id).
                     subscribe(data => console.log(data))
