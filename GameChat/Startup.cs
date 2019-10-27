@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GameChat.Web
 {
@@ -32,7 +33,6 @@ namespace GameChat.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -46,6 +46,7 @@ namespace GameChat.Web
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IConversationService, ConversationService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection).AddSingleton(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
@@ -71,10 +72,24 @@ namespace GameChat.Web
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+                x.Events = new JwtBearerEvents()
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/hub"))
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            if (!string.IsNullOrEmpty(accessToken))
+                                context.Request.Headers.Add("Authorization", $"Bearer {accessToken}");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             #endregion
 
+            services.AddSignalR();
             services.AddSpaStaticFiles(spa =>
             {
                 spa.RootPath = "wwwroot";
@@ -95,7 +110,8 @@ namespace GameChat.Web
 
             app.UseSignalR(config =>
             {
-                config.MapHub<MessageHub>("/messages");
+                config.MapHub<MessageHub>("/hub/messages");
+                config.MapHub<NotificationHub>("/hub/notifications");
             });
 
             app.UseMvc();

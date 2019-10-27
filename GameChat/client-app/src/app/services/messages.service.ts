@@ -11,14 +11,18 @@ export class MessagesService {
 
     constructor(private http: HttpClient) { }
 
-    startConnection() {
+    startConnection(conversationId: number) {
         this.hubConnection =
             new signalR.HubConnectionBuilder().
-                withUrl('http://localhost:5000/messages').
+                withUrl('http://localhost:5000/hub/messages', { accessTokenFactory: () => localStorage.getItem('currentUser') }).
                 build()
 
         //TODO Console logging is added for debugging/development purposes. Remove it afterwards
-        this.hubConnection.start().then(() => console.log('connection started')).catch(error => console.log('ERROR: ' + error))
+        this.hubConnection.start().
+            then(() => {
+                this.hubConnection.invoke('JoinConversation', conversationId).then(() => console.log('Joined conversation ' + conversationId))
+                console.log('connection started')
+            }).catch(error => console.log('ERROR: ' + error))
     }
 
     addMessagesListener(callback) {
@@ -30,7 +34,7 @@ export class MessagesService {
     }
 
     sendMessage(message) {
-        return this.http.post('/api/messages', message)
+        this.hubConnection.invoke('ReceiveMessageFromClient', message)
     }
 
     markMessageAsRead(messageId: number) {

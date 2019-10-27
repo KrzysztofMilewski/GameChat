@@ -18,7 +18,7 @@ namespace GameChat.Web.Controllers
         private readonly IMessageService _messageService;
         private readonly IHubContext<MessageHub> _hubContext;
 
-        public MessagesController(IMessageService messageService, IHubContext<MessageHub> hubContext)
+        public MessagesController(IMessageService messageService, IHubContext<MessageHub> hubContext, IHubContext<NotificationHub> asdf)
         {
             _messageService = messageService;
             _hubContext = hubContext;
@@ -49,7 +49,7 @@ namespace GameChat.Web.Controllers
                 return BadRequest(result.Message);
             else
             {
-                await _hubContext.Clients.All.SendAsync("SendMessage", message);
+                await _hubContext.Clients.Group(message.ConversationId.ToString()).SendAsync("SendMessage", message);
                 return Ok();
             }
         }

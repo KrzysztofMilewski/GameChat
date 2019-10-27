@@ -10,5 +10,6 @@ namespace GameChat.Core.Interfaces.Services
         Task<ServiceResult<int>> CreateNewConversation(ConversationDto conversation);
         Task<ServiceResult<IEnumerable<ConversationDto>>> GetConversationsForUser(int userId);
         Task<ServiceResult<ConversationDto>> GetConversation(int conversationId, int requestingUserId);
+        Task<ServiceResult<IEnumerable<UserDto>>> GetParticipants(int conversationId, int requestingUserId);
     }
 }

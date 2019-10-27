@@ -52,5 +52,15 @@ namespace GameChat.Core.Repositories
         {
             await _unreadMessages.AddAsync(unreadMessage);
         }
+
+        public async Task<IEnumerable<UnreadMessage>> GetUnreadMessagesAsync(int userId)
+        {
+            var unreadMessages = await _unreadMessages.
+                Include(um => um.Message).
+                Where(um => um.ParticipantId == userId).
+                ToListAsync();
+
+            return unreadMessages;
+        }
     }
 }

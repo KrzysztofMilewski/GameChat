@@ -45,7 +45,7 @@ export class ConversationComponent implements OnInit {
                 this.messageList = data
             })
 
-        this.messageService.startConnection()
+        this.messageService.startConnection(this.conversation.id)
         this.messageService.addMessagesListener(receivedMessage => {
             this.messageList.push(Object.assign({}, receivedMessage))
 
@@ -57,10 +57,8 @@ export class ConversationComponent implements OnInit {
     }
 
     onSubmit() {
-        this.messageService.sendMessage(this.messageToSend).
-            subscribe(m => {
-                this.messageToSend.contents = ''
-            })
+        this.messageService.sendMessage(this.messageToSend)
+        this.messageToSend.contents = ''
     }
 
     isMessageMine(senderId: number) {

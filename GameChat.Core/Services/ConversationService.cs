@@ -85,5 +85,17 @@ namespace GameChat.Core.Services
 
             return new ServiceResult<ConversationDto>(true, "Conversation info successfully retrieved", conversationDto);
         }
+
+        public async Task<ServiceResult<IEnumerable<UserDto>>> GetParticipants(int conversationId, int requestingUserId)
+        {
+            bool isParticipating = await _unitOfWork.ConversationRepository.IsUserParticipatingAsync(conversationId, requestingUserId);
+            if (!isParticipating)
+                return new ServiceResult<IEnumerable<UserDto>>(false, "This user is not a part of this conversation");
+
+            var participants = await _unitOfWork.ConversationRepository.GetParticipantsAsUsersAsync(conversationId);
+            var participantsDto = _mapper.Map<IEnumerable<UserDto>>(participants);
+
+            return new ServiceResult<IEnumerable<UserDto>>(true, "Users retrieved successfully", participantsDto);
+        }
     }
 }
