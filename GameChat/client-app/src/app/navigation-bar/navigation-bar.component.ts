@@ -27,18 +27,7 @@ export class NavigationBarComponent implements OnInit {
         if (this.isLoggedIn) {
             userService.getCurrentUser().
                 subscribe((user: User) => {
-                    this.currentUser = user
-
-                    notificationsService.startConnection()
-
-
-                    //TODO add notification data and visual indication
-                    notificationsService.initialLoadMessageNotifications(data=>console.log(data))
-
-                    notificationsService.receiveMessageNotification(notification => {
-                        if (!router.url.includes('/conversations/'))
-                            console.log(notification)
-                    })
+                    this.currentUser = user                                   
                 })
         }
     }

@@ -47,7 +47,6 @@ namespace GameChat.Web.Hubs
                 await Clients.Group(message.ConversationId.ToString()).SendAsync("SendMessage", message);
                 var allParticipants = await _conversationService.GetParticipants(message.ConversationId, currentUserId);
 
-                //TODO temporary
                 foreach (var user in allParticipants.Data)
                     await _notificationHub.Clients.User(user.Id.ToString()).SendAsync("MessageNotification", message.ConversationId);
             }

@@ -25,6 +25,10 @@ export class MessagesService {
             }).catch(error => console.log('ERROR: ' + error))
     }
 
+    stopConnection() {
+        this.hubConnection.stop()
+    }
+
     addMessagesListener(callback) {
         this.hubConnection.on('SendMessage', data => callback(data))
     }

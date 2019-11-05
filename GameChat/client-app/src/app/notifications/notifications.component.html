@@ -1,0 +1,5 @@
+<i class="fas fa-lg text-white"
+   [class.fa-envelope-open]="!unreadConversations"
+   [class.fa-envelope-open-text]="unreadConversations"></i>
+
+<span class="badge badge-pill badge-warning" *ngIf="unreadConversations">{{ unreadConversations }}</span>

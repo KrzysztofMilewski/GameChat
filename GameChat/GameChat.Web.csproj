@@ -11,6 +11,7 @@
     <None Remove="client-app\src\app\helpers\JwtInterceptor.ts" />
     <None Remove="client-app\src\app\helpers\PasswordsMatchValidator.ts" />
     <None Remove="client-app\src\app\models\message.ts" />
+    <None Remove="client-app\src\app\models\notifications.ts" />
     <None Remove="client-app\src\app\models\user.ts" />
   </ItemGroup>
 
@@ -30,6 +31,7 @@
     <TypeScriptCompile Include="client-app\src\app\helpers\JwtInterceptor.ts" />
     <TypeScriptCompile Include="client-app\src\app\helpers\PasswordsMatchValidator.ts" />
     <TypeScriptCompile Include="client-app\src\app\models\message.ts" />
+    <TypeScriptCompile Include="client-app\src\app\models\notifications.ts" />
     <TypeScriptCompile Include="client-app\src\app\models\user.ts" />
   </ItemGroup>
 

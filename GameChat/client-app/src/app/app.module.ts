@@ -18,6 +18,7 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { ConversationStartFormComponent } from './conversation-start-form/conversation-start-form.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { ConversationStartFormComponent } from './conversation-start-form/conver
         RegisterFormComponent,
         ConversationComponent,
         ConversationStartFormComponent,
+        NotificationsComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,21 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from '../models/message';
 import { UsersService } from '../services/users.service';
-import { forkJoin } from 'rxjs';
 import { User } from '../models/user';
 import { ConversationsService } from '../services/conversations.service';
 import { Conversation } from '../models/conversation';
+import { NotificationsService } from '../services/notifications.service';
 
 @Component({
     selector: 'app-conversation',
     templateUrl: './conversation.component.html',
     styleUrls: ['./conversation.component.css']
 })
-export class ConversationComponent implements OnInit {
-
-    //TODO add fetching data about conversation (title, participants etc.)
+export class ConversationComponent implements OnInit, OnDestroy {
 
     private conversation: Conversation = new Conversation()
     private currentUser: User
@@ -26,7 +24,8 @@ export class ConversationComponent implements OnInit {
         private messageService: MessagesService,
         private activatedRoute: ActivatedRoute,
         private usersService: UsersService,
-        private conversationService: ConversationsService) {
+        private conversationService: ConversationsService,
+        private notificationsService: NotificationsService) {
 
         this.messageToSend.conversationId = this.conversation.id = +activatedRoute.snapshot.paramMap.get('id')
 
@@ -43,6 +42,7 @@ export class ConversationComponent implements OnInit {
         this.messageService.loadMessages(this.conversation.id).
             subscribe((data: Message[]) => {
                 this.messageList = data
+                this.notificationsService.notifyAboutReadingMessages(this.conversation.id)
             })
 
         this.messageService.startConnection(this.conversation.id)
@@ -54,6 +54,10 @@ export class ConversationComponent implements OnInit {
                     subscribe(data => console.log(data))
             }
         })
+    }
+
+    ngOnDestroy() {
+        this.messageService.stopConnection()
     }
 
     onSubmit() {

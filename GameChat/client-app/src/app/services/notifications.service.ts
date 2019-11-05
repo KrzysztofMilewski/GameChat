@@ -7,6 +7,7 @@ import * as signalR from '@aspnet/signalr'
 export class NotificationsService {
 
     private hubConnection: signalR.HubConnection
+    private readMessagesCallback
 
     startConnection() {
         this.hubConnection = new signalR.HubConnectionBuilder().
@@ -25,5 +26,13 @@ export class NotificationsService {
 
     initialLoadMessageNotifications(callback) {
         this.hubConnection.on('InitialNotificationsLoad', data => callback(data))
+    }
+
+    notifyAboutReadingMessages(conversationId: number) {
+        this.readMessagesCallback(conversationId)
+    }
+
+    registerCallbackForReadingMessages(callback) {
+        this.readMessagesCallback = callback
     }
 }
