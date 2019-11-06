@@ -1,5 +1,20 @@
-<i class="fas fa-lg text-white"
-   [class.fa-envelope-open]="!unreadConversations"
-   [class.fa-envelope-open-text]="unreadConversations"></i>
 
-<span class="badge badge-pill badge-warning" *ngIf="unreadConversations">{{ unreadConversations }}</span>
+<div class="dropdown">
+    <div class="clickable" data-toggle="dropdown" (click)="getConversationsInfo()">
+        <i class="fas fa-lg text-white"
+           [class.fa-envelope-open]="!unreadConversations"
+           [class.fa-envelope-open-text]="unreadConversations"></i>
+
+        <span class="badge badge-pill badge-warning" *ngIf="unreadConversations">{{ unreadConversations }}</span>
+    </div>
+
+
+    <div class="dropdown-menu p-0 dropdown-menu-right">
+        <div class="dropdown-item clickable px-0 pb-0 pt-2" *ngFor="let c of conversations; let i =  index" routerLink="/conversations/{{c.id}}">
+            <strong class="px-2">{{ c.title }} ({{ c.unreadMessages }})</strong>
+            <div class="px-2 pb-2">With {{c.participants.length - 1}} user(s)</div>
+
+            <hr class="p-0 m-0" *ngIf="i!=conversations.length - 1" />
+        </div>
+    </div>
+</div>

@@ -3,6 +3,9 @@ import { NotificationsService } from '../services/notifications.service';
 import { Router } from '@angular/router';
 import { Notifications, MessageNotification } from '../models/notifications';
 import { MessagesService } from '../services/messages.service';
+import { forkJoin } from 'rxjs';
+import { ConversationsService } from '../services/conversations.service';
+import { Conversation } from '../models/conversation';
 
 @Component({
     selector: 'app-notifications',
@@ -12,22 +15,27 @@ import { MessagesService } from '../services/messages.service';
 export class NotificationsComponent implements OnInit {
 
     private notifications: Notifications
+    private conversations: Conversation[]
+    private dropdownUpToDate: boolean
 
     constructor(
         private notificationsService: NotificationsService,
-        private router: Router)
+        private router: Router,
+        private conversationsService: ConversationsService)
     {
         this.notifications = new Notifications()
+        this.conversations = []
+        this.dropdownUpToDate = false
     }
 
     ngOnInit() {
         this.notificationsService.registerCallbackForReadingMessages(conversationid => {
-            console.log('deleting notifications')
+            let notifications = this.notifications.messageNotifications.find(n => n.conversationId == conversationid)
 
-            let notifications = this.notifications.messageNotifications.find(n => n.conversationId = conversationid)
-
-            if (notifications)
+            if (notifications) {
                 this.notifications.messageNotifications = this.notifications.messageNotifications.filter(element => element.conversationId != conversationid)
+                this.conversations = this.conversations.filter(element => element.id != conversationid)
+            }
         })
 
         this.notificationsService.startConnection()
@@ -36,9 +44,8 @@ export class NotificationsComponent implements OnInit {
             (response: MessageNotification[]) => this.notifications.messageNotifications = response)
 
         this.notificationsService.receiveMessageNotification(conversationId => {
-            if (!this.router.url.includes('/conversations/' + conversationId)) {
+            if (!this.router.url.includes('/conversations/' + conversationId))
                 this.addNotification(conversationId)
-            }
         })
     }
 
@@ -46,11 +53,39 @@ export class NotificationsComponent implements OnInit {
         return this.notifications.messageNotifications.length
     }
 
+    getConversationsInfo() {
+        if (this.dropdownUpToDate)
+            return
+
+        let conversationIds = []
+        for (let i = 0; i < this.notifications.messageNotifications.length; i++)
+            conversationIds.push(this.notifications.messageNotifications[i].conversationId)
+
+        let apiCallsForConversations = []
+        for (let convId of conversationIds)
+            apiCallsForConversations.push(this.conversationsService.getConversationInfo(+convId))
+
+        forkJoin(apiCallsForConversations).
+            subscribe((data: Conversation[]) => {
+                for (let conversationInfo of data) {
+                    conversationInfo.unreadMessages = this.notifications.messageNotifications.
+                        find(n => n.conversationId == conversationInfo.id).quantityOfUnreadMessages
+
+                    this.conversations.push(conversationInfo)
+                }
+
+                this.dropdownUpToDate = true
+            })
+    }
+
     clearNotifications() {
         this.notifications.messageNotifications.length = 0
     }
 
     private addNotification(response: number) {
+        this.dropdownUpToDate = false
+        this.conversations = []
+
         let notification = this.notifications.messageNotifications.find(n => n.conversationId == response)
 
         if (notification)

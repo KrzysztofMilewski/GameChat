@@ -4,4 +4,5 @@ export class Conversation {
     id: number
     title: string
     participants: User[]
+    unreadMessages: number
 }
