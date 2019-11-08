@@ -1,5 +1,4 @@
-﻿using GameChat.Core.DTOs;
-using GameChat.Core.Interfaces.Services;
+﻿using GameChat.Core.Interfaces.Services;
 using GameChat.Web.Hubs;
 using GameChat.Web.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -35,23 +34,6 @@ namespace GameChat.Web.Controllers
                 return BadRequest(result.Message);
             else
                 return Ok(result.Data);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> SendMessage([FromBody]MessageDto message)
-        {
-            if (message.Sender.Id != User.GetUserId())
-                return BadRequest();
-
-            var result = await _messageService.SendMessageAsync(message);
-
-            if (!result.Success)
-                return BadRequest(result.Message);
-            else
-            {
-                await _hubContext.Clients.Group(message.ConversationId.ToString()).SendAsync("SendMessage", message);
-                return Ok();
-            }
         }
 
         [HttpDelete("{id}")]

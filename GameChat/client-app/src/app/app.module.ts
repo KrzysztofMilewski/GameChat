@@ -19,6 +19,7 @@ import { RegisterFormComponent } from './register-form/register-form.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { ConversationStartFormComponent } from './conversation-start-form/conversation-start-form.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { ConversationsCentreComponent } from './conversations-centre/conversations-centre.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
         ConversationComponent,
         ConversationStartFormComponent,
         NotificationsComponent,
+        ConversationsCentreComponent,
     ],
     imports: [
         BrowserModule,

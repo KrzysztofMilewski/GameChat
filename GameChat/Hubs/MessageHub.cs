@@ -13,18 +13,18 @@ namespace GameChat.Web.Hubs
         private readonly IMessageService _messageService;
         private readonly IConversationService _conversationService;
         private readonly IHubContext<NotificationHub> _notificationHub;
-        private readonly INotificationService _notificationService;
+        private readonly IHubContext<ConversationHub> _conversationHub;
 
         public MessageHub(
             IMessageService messageService,
             IConversationService conversationService,
             IHubContext<NotificationHub> notificationHub,
-            INotificationService notificationService)
+            IHubContext<ConversationHub> conversationHub)
         {
             _messageService = messageService;
             _conversationService = conversationService;
             _notificationHub = notificationHub;
-            _notificationService = notificationService;
+            _conversationHub = conversationHub;
         }
 
         public async Task JoinConversation(int conversationId)
@@ -48,7 +48,13 @@ namespace GameChat.Web.Hubs
                 var allParticipants = await _conversationService.GetParticipants(message.ConversationId, currentUserId);
 
                 foreach (var user in allParticipants.Data)
+                {
                     await _notificationHub.Clients.User(user.Id.ToString()).SendAsync("MessageNotification", message.ConversationId);
+
+                    await _conversationHub.Clients.User(user.Id.ToString()).SendAsync(
+                        "UpdateFeedNewMessage",
+                        new UpdateConversationFeedDto(message.ConversationId, message.DateSent));
+                }
             }
         }
     }

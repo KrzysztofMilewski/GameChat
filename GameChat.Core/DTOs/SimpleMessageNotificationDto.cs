@@ -1,8 +1,8 @@
 ﻿namespace GameChat.Core.DTOs
 {
-    public class MessageNotificationDto
+    public class SimpleMessageNotificationDto
     {
-        public MessageNotificationDto(int conversationId, int quantity)
+        public SimpleMessageNotificationDto(int conversationId, int quantity)
         {
             ConversationId = conversationId;
             QuantityOfUnreadMessages = quantity;

@@ -7,6 +7,6 @@ namespace GameChat.Core.Interfaces.Services
 {
     public interface INotificationService
     {
-        Task<ServiceResult<IEnumerable<MessageNotificationDto>>> GetUnreadMessagesNotifications(int userId);
+        Task<ServiceResult<IEnumerable<SimpleMessageNotificationDto>>> GetUnreadMessagesNotifications(int userId);
     }
 }

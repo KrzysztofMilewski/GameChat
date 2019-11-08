@@ -5,4 +5,5 @@ export class Conversation {
     title: string
     participants: User[]
     unreadMessages: number
+    dateOfLastMessage: Date
 }

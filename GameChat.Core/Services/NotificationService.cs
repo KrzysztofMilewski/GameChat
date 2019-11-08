@@ -17,17 +17,17 @@ namespace GameChat.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ServiceResult<IEnumerable<MessageNotificationDto>>> GetUnreadMessagesNotifications(int userId)
+        public async Task<ServiceResult<IEnumerable<SimpleMessageNotificationDto>>> GetUnreadMessagesNotifications(int userId)
         {
             var unreadMessages = await _unitOfWork.MessageRepository.GetUnreadMessagesAsync(userId);
             var groupedByConversation = unreadMessages.GroupBy(um => um.Message.ConversationId);
 
-            var notifications = new List<MessageNotificationDto>();
+            var notifications = new List<SimpleMessageNotificationDto>();
 
             foreach (var grouped in groupedByConversation)
-                notifications.Add(new MessageNotificationDto(grouped.Key, grouped.Count()));
+                notifications.Add(new SimpleMessageNotificationDto(grouped.Key, grouped.Count()));
 
-            return new ServiceResult<IEnumerable<MessageNotificationDto>>(true, "Notifications retrieved successfully", notifications);
+            return new ServiceResult<IEnumerable<SimpleMessageNotificationDto>>(true, "Notifications retrieved successfully", notifications);
         }
     }
 }

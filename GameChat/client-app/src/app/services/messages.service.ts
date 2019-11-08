@@ -17,11 +17,9 @@ export class MessagesService {
                 withUrl('http://localhost:5000/hub/messages', { accessTokenFactory: () => localStorage.getItem('currentUser') }).
                 build()
 
-        //TODO Console logging is added for debugging/development purposes. Remove it afterwards
         this.hubConnection.start().
             then(() => {
                 this.hubConnection.invoke('JoinConversation', conversationId).then(() => console.log('Joined conversation ' + conversationId))
-                console.log('connection started')
             }).catch(error => console.log('ERROR: ' + error))
     }
 

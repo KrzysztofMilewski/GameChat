@@ -112,6 +112,7 @@ namespace GameChat.Web
             {
                 config.MapHub<MessageHub>("/hub/messages");
                 config.MapHub<NotificationHub>("/hub/notifications");
+                config.MapHub<ConversationHub>("/hub/conversationfeed");
             });
 
             app.UseMvc();

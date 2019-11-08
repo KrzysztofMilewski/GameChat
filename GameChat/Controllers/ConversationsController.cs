@@ -31,17 +31,6 @@ namespace GameChat.Web.Controllers
                 return BadRequest(result.Message);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetConversationsForUser()
-        {
-            var result = await _conversationService.GetConversationsForUser(User.GetUserId());
-
-            if (result.Success)
-                return Ok(result.Data);
-            else
-                return BadRequest(result.Message);
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetConversationInfo(int id)
         {

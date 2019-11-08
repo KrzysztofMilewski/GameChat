@@ -1,10 +1,19 @@
 <div class="row mx-2 mt-2 justify-content-center">
     <div class="col py-3 shadow bg-white rounded">
-        <h3 class="text-center">Conversations</h3>
-        <hr class="py-1" />
-        <h4>Most recent</h4>
 
-        <div *ngFor="let conv of activeConversations" class="d-flex py-2 my-2 conversation-badge" (click)="navigateToConversation(conv.id)">
+        <div class="d-flex">
+            <h3 class="m-0">Chat</h3>
+            <button class="btn btn-link px-0 ml-auto" routerLink="/conversations">Go to all conversations</button>
+        </div>
+
+        <hr class="py-1" />
+        <p class="text-justify">
+            Thanks to our application you can connect with just anyone around the globe.
+            Click the link below and start chatting right now.
+            It has never been easier!
+        </p>
+
+        <!--<div *ngFor="let conv of activeConversations" class="d-flex py-2 my-2 conversation-badge" (click)="navigateToConversation(conv.id)">
             <div class="ml-2">
                 <strong class="my-auto"> {{ conv.title }} </strong>
                 <p class="my-auto">
@@ -14,11 +23,14 @@
             <div class="ml-auto mr-2 my-auto">
                 <i class="fas fa-2x fa-fw text-secondary" [ngClass]="isGroupChat(conv)? 'fa-users' : 'fa-user' "></i>
             </div>
-        </div>
+        </div>-->
 
-        <button class="btn btn-outline-primary" data-toggle="collapse" data-target="#new-chat-form" [attr.aria-expanded]="expanded" (click)="expand()">
-            New conversation
+        <hr />
+
+        <button class="btn btn-link px-0" data-toggle="collapse" data-target="#new-chat-form" [attr.aria-expanded]="expanded" (click)="expand()">
+            Create new conversation
         </button>
+
 
         <div id="new-chat-form" class="collapse">
             <button *ngFor="let u of users" (click)="createConversation(u.id)">{{u.username}}</button>

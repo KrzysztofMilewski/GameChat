@@ -46,14 +46,15 @@ namespace GameChat.Core.Services
             return new ServiceResult<int>(true, "Conversation created successfully", id);
         }
 
-        public async Task<ServiceResult<IEnumerable<ConversationDto>>> GetConversationsForUser(int userId)
+        public async Task<ServiceResult<IEnumerable<ConversationFeedDto>>> GetConversationsForUser(int userId)
         {
             var user = await _unitOfWork.UserRepository.FindByIdAsync(userId);
 
             if (user == null)
-                return new ServiceResult<IEnumerable<ConversationDto>>(false, "Specified user does not exist");
+                return new ServiceResult<IEnumerable<ConversationFeedDto>>(false, "Specified user does not exist");
 
             var conversations = await _unitOfWork.ConversationRepository.GetConversationsForUserAsync(userId);
+            var unreadMessages = await _unitOfWork.MessageRepository.GetUnreadMessagesAsync(userId);
             var conversationsDto = _mapper.Map<IEnumerable<ConversationDto>>(conversations);
 
             foreach (var conversation in conversationsDto)
@@ -63,7 +64,18 @@ namespace GameChat.Core.Services
                 conversation.Participants = new Collection<UserDto>(participantsDto);
             }
 
-            return new ServiceResult<IEnumerable<ConversationDto>>(true, "Conversations retrieved successfully", conversationsDto);
+            var conversationsFeed = conversationsDto.GroupJoin(
+                unreadMessages,
+                c => c.Id,
+                um => um.Message.Id,
+                (c, ums) => new ConversationFeedDto()
+                {
+                    Conversation = c,
+                    UnreadMessages = ums.Count(),
+                    LastMessageSent = ums.FirstOrDefault()?.Message.DateSent
+                });
+
+            return new ServiceResult<IEnumerable<ConversationFeedDto>>(true, "Conversations retrieved successfully", conversationsFeed);
         }
 
         public async Task<ServiceResult<ConversationDto>> GetConversation(int conversationId, int requestingUserId)

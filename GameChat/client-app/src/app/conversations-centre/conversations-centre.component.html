@@ -1,0 +1,19 @@
+<div class="row mx-2 mt-2 justify-content-center">
+    <div class="col py-3 shadow bg-white rounded">
+        <h3 class="text-center">Your conversations</h3>
+        <hr />
+
+        <div *ngFor="let conv of conversations" class="d-flex py-2 my-2 conversation-badge" (click)="navigateToConversation(conv.id)">
+            <div class="ml-2">
+                <strong class="my-auto"> {{ conv.title }} </strong>
+                <p class="my-auto">
+                    <small>With: {{ displayParticipants(conv) }}</small>
+                </p>
+            </div>
+            <div class="ml-auto mr-2 my-auto">
+                <i class="fas fa-2x fa-fw text-secondary" [ngClass]="isGroupChat(conv)? 'fa-users' : 'fa-user' "></i>
+            </div>
+        </div>
+
+    </div>
+</div>
