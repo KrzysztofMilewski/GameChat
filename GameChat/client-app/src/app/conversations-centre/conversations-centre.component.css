@@ -1,8 +1,22 @@
 .conversation-badge {
-    border: 1px solid green;
+    border: 1px solid #6c757d;
     cursor: pointer;
 }
 
     .conversation-badge:hover {
         background-color: lightblue;
     }
+
+.conversation-badge-unread-messages {
+    border: 3px solid #6c757d;
+    cursor: pointer;
+}
+
+    .conversation-badge-unread-messages:hover {
+        background-color: lightblue;
+    }
+
+.message-counter {
+    text-align: right;
+    position: absolute;
+}

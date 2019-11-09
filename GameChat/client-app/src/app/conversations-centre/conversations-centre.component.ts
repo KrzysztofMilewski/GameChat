@@ -82,4 +82,15 @@ export class ConversationsCentreComponent implements OnInit, OnDestroy {
 
         return shortest
     }
+
+    private compareDatesInConversations() {
+        return (c1, c2) => {
+            if (c1.dateOfLastMessage == null && c2.dateOfLastMessage != null)
+                return -1
+            if (c2.dateOfLastMessage == null && c1.dateOfLastMessage != null)
+                return 1
+            else
+                return +(c1.dateOfLastMessage < c2.dateOfLastMessage)
+        }
+    }
 }

@@ -4,6 +4,7 @@ using GameChat.Core.Helpers;
 using GameChat.Core.Interfaces.Repositories;
 using GameChat.Core.Interfaces.Services;
 using GameChat.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -64,16 +65,21 @@ namespace GameChat.Core.Services
                 conversation.Participants = new Collection<UserDto>(participantsDto);
             }
 
-            var conversationsFeed = conversationsDto.GroupJoin(
-                unreadMessages,
-                c => c.Id,
-                um => um.Message.Id,
-                (c, ums) => new ConversationFeedDto()
+            var conversationsFeed = new List<ConversationFeedDto>();
+
+            foreach (var conversation in conversationsDto)
+            {
+                var convFeed = new ConversationFeedDto()
                 {
-                    Conversation = c,
-                    UnreadMessages = ums.Count(),
-                    LastMessageSent = ums.FirstOrDefault()?.Message.DateSent
-                });
+                    Conversation = conversation,
+                    UnreadMessages = unreadMessages.Where(um => um.Message.ConversationId == conversation.Id).Count(),
+                    LastMessageSent = unreadMessages.FirstOrDefault(um => um.Message.ConversationId == conversation.Id)?.Message.DateSent ?? DateTime.MinValue
+                };
+
+                conversationsFeed.Add(convFeed);
+            }
+
+            conversationsFeed = conversationsFeed.OrderByDescending(cf => cf.LastMessageSent).ToList();
 
             return new ServiceResult<IEnumerable<ConversationFeedDto>>(true, "Conversations retrieved successfully", conversationsFeed);
         }

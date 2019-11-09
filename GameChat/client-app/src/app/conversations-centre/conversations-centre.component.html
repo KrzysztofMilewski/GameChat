@@ -3,7 +3,10 @@
         <h3 class="text-center">Your conversations</h3>
         <hr />
 
-        <div *ngFor="let conv of conversations" class="d-flex py-2 my-2 conversation-badge" (click)="navigateToConversation(conv.id)">
+        <div *ngFor="let conv of conversations" class="d-flex py-2 my-2"
+             (click)="navigateToConversation(conv.id)"
+             [ngClass]="conv.unreadMessages == 0 ? 'conversation-badge' : 'conversation-badge-unread-messages'">
+
             <div class="ml-2">
                 <strong class="my-auto"> {{ conv.title }} </strong>
                 <p class="my-auto">
@@ -11,7 +14,11 @@
                 </p>
             </div>
             <div class="ml-auto mr-2 my-auto">
-                <i class="fas fa-2x fa-fw text-secondary" [ngClass]="isGroupChat(conv)? 'fa-users' : 'fa-user' "></i>
+                <span class="fa-fw">
+                    <i class="fas fa-2x fa-fw"
+                       [ngClass]="[ isGroupChat(conv) ? 'fa-users' : 'fa-user', conv.unreadMessages == 0 ? 'text-secondary' : 'text-warning' ]"></i>
+                    <span *ngIf="conv.unreadMessages > 0" class="badge badge-pill badge-warning">{{conv.unreadMessages}}</span>
+                </span>
             </div>
         </div>
 

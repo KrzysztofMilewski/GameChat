@@ -58,7 +58,7 @@ namespace GameChat.Core.Repositories
             var unreadMessages = await _unreadMessages.
                 Include(um => um.Message).
                 Where(um => um.ParticipantId == userId).
-                OrderBy(um => um.Message.DateSent).
+                OrderByDescending(um => um.Message.DateSent).
                 ToListAsync();
 
             return unreadMessages;
