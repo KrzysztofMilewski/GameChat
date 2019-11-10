@@ -4,6 +4,7 @@ import { UsersService } from '../services/users.service';
 import { User } from '../models/user';
 import { ConversationsService } from '../services/conversations.service';
 import { Router } from '@angular/router';
+import { Conversation } from '../models/conversation';
 
 @Component({
     selector: 'app-conversation-start-form',
@@ -11,37 +12,41 @@ import { Router } from '@angular/router';
     styleUrls: ['./conversation-start-form.component.css']
 })
 export class ConversationStartFormComponent implements OnInit {
-    private enteredText: string
-    public usersFromDatabase: User[]
-
-    //TODO add conversation model (class) later on
-    public conversation = {
-        title: '',
-        participants: []
-    }
+    usersFromDatabase: User[]
+    currentUser: User
+    conversation: Conversation
 
     constructor(
         private usersService: UsersService,
         private conversationsService: ConversationsService,
-        private router: Router) { }
+        private router: Router) {
+
+        this.conversation = new Conversation()
+        this.conversation.participants = []
+
+        usersService.getCurrentUser().
+            subscribe((data: User) => this.currentUser = data)
+    }
 
     ngOnInit() {
+        
     }
 
     textChanged($event: string) {
-       
         if ($event == '')
             return
 
-        if (!$event.includes(this.enteredText)) {
-            this.usersService.getUsers($event).
-                subscribe((response: any) => this.usersFromDatabase = response.data)
-
-            this.enteredText = $event
-        }
+        this.usersService.getUsers($event).
+            subscribe((response: any) => {
+                this.usersFromDatabase = response.data
+                this.usersFromDatabase = this.usersFromDatabase.filter(u => u.id != this.currentUser.id)
+            })
     }
 
     createConversation() {
+        if (this.conversation.participants.length == 0)
+            return 
+
         this.conversationsService.createConversation(this.conversation).
             subscribe((result: any) => this.router.navigate(['/conversations/' + result.conversationId]))
     }

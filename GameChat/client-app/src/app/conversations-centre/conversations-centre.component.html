@@ -1,7 +1,21 @@
 <div class="row mx-2 mt-2 justify-content-center">
     <div class="col py-3 shadow bg-white rounded">
-        <h3 class="text-center">Your conversations</h3>
+        <div class="d-flex">
+            <h3 class="mr-auto my-auto">My conversations</h3>
+
+            <button class="btn btn-primary px-2" data-toggle="collapse"
+                    data-target="#new-chat-form" [attr.aria-expanded]="newConversationFormExpanded" (click)="expand()">
+
+                <i class="fas mr-1" [ngClass]="newConversationFormExpanded ? 'fa-minus' : 'fa-plus' "></i>
+                New
+            </button>
+        </div>
         <hr />
+
+        <div id="new-chat-form" class="collapse">
+            <app-conversation-start-form></app-conversation-start-form>
+            <hr />
+        </div>
 
         <div *ngFor="let conv of conversations" class="d-flex py-2 my-2"
              (click)="navigateToConversation(conv.id)"

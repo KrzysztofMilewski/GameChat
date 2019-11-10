@@ -12,29 +12,15 @@
             Click the link below and start chatting right now.
             It has never been easier!
         </p>
-
-        <!--<div *ngFor="let conv of activeConversations" class="d-flex py-2 my-2 conversation-badge" (click)="navigateToConversation(conv.id)">
-            <div class="ml-2">
-                <strong class="my-auto"> {{ conv.title }} </strong>
-                <p class="my-auto">
-                    <small>With: {{ displayParticipants(conv) }}</small>
-                </p>
-            </div>
-            <div class="ml-auto mr-2 my-auto">
-                <i class="fas fa-2x fa-fw text-secondary" [ngClass]="isGroupChat(conv)? 'fa-users' : 'fa-user' "></i>
-            </div>
-        </div>-->
-
         <hr />
 
         <button class="btn btn-link px-0" data-toggle="collapse" data-target="#new-chat-form" [attr.aria-expanded]="expanded" (click)="expand()">
+            <i class="fas mr-1" [ngClass]="expanded ? 'fa-minus' : 'fa-plus' "></i>
             Create new conversation
         </button>
 
 
         <div id="new-chat-form" class="collapse">
-            <button *ngFor="let u of users" (click)="createConversation(u.id)">{{u.username}}</button>
-
             <app-conversation-start-form></app-conversation-start-form>
         </div>
     </div>

@@ -1,3 +1,8 @@
-.create-conversation-container{
-    background-color:antiquewhite;
+.new-conversation-form {
+    border: 2px solid #007bff63;
+    border-radius: 5px;
+}
+
+.new-conversation-form-invalid {
+    border-color: #dc3545 !important;
 }

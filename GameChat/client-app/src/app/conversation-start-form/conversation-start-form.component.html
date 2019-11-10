@@ -1,24 +1,34 @@
-<form (submit)="createConversation()" class="my-2 create-conversation-container">
+<div class="new-conversation-form">
+    <form (submit)="createConversation()" class="m-0 p-2">
 
-    <input type="text" [(ngModel)]="conversation.title" class="form-control my-2" name="title" placeholder="Conversation title"/>
+        <input type="text"
+               [(ngModel)]="conversation.title"
+               class="form-control my-2"
+               name="title"
+               placeholder="Conversation title"
+               required minlength="4"/>
 
-    <tag-input [(ngModel)]="conversation.participants"
-               placeholder="User"
-               secondaryPlaceholder="Type users' names"
-               theme="bootstrap"
-               (onTextChange)="textChanged($event)"
-               [displayBy]="'username'"
-               [identifyBy]="'id'"
-               [onlyFromAutocomplete]="true"
-               name="participants"
-               class="my-2">
+        <tag-input [(ngModel)]="conversation.participants"
+                   placeholder="User"
+                   secondaryPlaceholder="Type users' names"
+                   theme="bootstrap"
+                   (onTextChange)="textChanged($event)"
+                   [displayBy]="'username'"
+                   [identifyBy]="'id'"
+                   [onlyFromAutocomplete]="true"
+                   name="participants"
+                   class="my-2">
 
-        <tag-input-dropdown [autocompleteItems]="usersFromDatabase" [displayBy]="'username'" [identifyBy]="'id'" [showDropdownIfEmpty]="true">
+            <tag-input-dropdown [autocompleteItems]="usersFromDatabase"
+                                [displayBy]="'username'"
+                                [identifyBy]="'id'"
+                                [showDropdownIfEmpty]="true"
+                                [appendToBody]="false">
 
-        </tag-input-dropdown>
+            </tag-input-dropdown>
 
-    </tag-input>
+        </tag-input>
 
-    <button type="submit" class="btn btn-primary mt-2">Start conversation</button>
-
-</form>
+        <button type="submit" class="btn btn-primary mt-2" [disabled]="conversation.participants.length == 0 || conversation.title.length<4">Start chatting</button>
+    </form>
+</div>

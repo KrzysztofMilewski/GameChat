@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class ConversationsCentreComponent implements OnInit, OnDestroy {
 
     private currentUser: User
+    newConversationFormExpanded: boolean = false
 
     conversations: Conversation[]
 
@@ -70,6 +71,10 @@ export class ConversationsCentreComponent implements OnInit, OnDestroy {
             let shortestName = this.findShortestName(conversation.participants.filter(p => p.id != this.currentUser.id))
             return shortestName + ' and ' + (conversation.participants.length - 2) + ' others'
         }
+    }
+
+    expand() {
+        this.newConversationFormExpanded = !this.newConversationFormExpanded
     }
 
     private findShortestName(participants: User[]): string {

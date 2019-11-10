@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Message } from '../models/message';
 import { UsersService } from '../services/users.service';
 import { User } from '../models/user';
@@ -14,6 +14,8 @@ import { NotificationsService } from '../services/notifications.service';
     styleUrls: ['./conversation.component.css']
 })
 export class ConversationComponent implements OnInit, OnDestroy {
+
+    private reloadOnParamChange: any
 
     private conversation: Conversation = new Conversation()
     private currentUser: User
