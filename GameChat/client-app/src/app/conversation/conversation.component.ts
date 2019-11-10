@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Message } from '../models/message';
@@ -13,14 +13,14 @@ import { NotificationsService } from '../services/notifications.service';
     templateUrl: './conversation.component.html',
     styleUrls: ['./conversation.component.css']
 })
-export class ConversationComponent implements OnInit, OnDestroy {
-
-    private reloadOnParamChange: any
+export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     private conversation: Conversation = new Conversation()
     private currentUser: User
     private messageList: Message[]
     private messageToSend: Message = new Message()
+    private firstLoad: boolean = true
+
 
     constructor(
         private messageService: MessagesService,
@@ -29,18 +29,28 @@ export class ConversationComponent implements OnInit, OnDestroy {
         private conversationService: ConversationsService,
         private notificationsService: NotificationsService) {
 
-        this.messageToSend.conversationId = this.conversation.id = +activatedRoute.snapshot.paramMap.get('id')
+        
+        activatedRoute.paramMap.subscribe(params => {
+            if (this.firstLoad)
+                this.firstLoad = false
+            else {
+                this.ngOnDestroy()
+                this.ngOnInit()
+            }
+        })
+    }
 
-        usersService.getCurrentUser().
+    ngOnInit() {
+        this.messageToSend.conversationId = this.conversation.id = +this.activatedRoute.snapshot.paramMap.get('id')
+
+        this.usersService.getCurrentUser().
             subscribe(user => {
                 this.currentUser = this.messageToSend.sender = user as User
             })
 
-        conversationService.getConversationInfo(this.conversation.id).
+        this.conversationService.getConversationInfo(this.conversation.id).
             subscribe((data: Conversation) => this.conversation = data)
-    }
 
-    ngOnInit() {
         this.messageService.loadMessages(this.conversation.id).
             subscribe((data: Message[]) => {
                 this.messageList = data
@@ -60,6 +70,11 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.messageService.stopConnection()
+    }
+
+    ngAfterViewChecked() {
+        var messagesDiv = document.getElementById('scrollMe')
+        messagesDiv.scrollTop = messagesDiv.scrollHeight
     }
 
     onSubmit() {
