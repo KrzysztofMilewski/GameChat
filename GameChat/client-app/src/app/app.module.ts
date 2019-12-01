@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import bootstrap from "bootstrap";
 import * as $ from 'jquery';
 import { TagInputModule } from 'ngx-chips'
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +21,8 @@ import { ConversationComponent } from './conversation/conversation.component';
 import { ConversationStartFormComponent } from './conversation-start-form/conversation-start-form.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ConversationsCentreComponent } from './conversations-centre/conversations-centre.component';
+import { GamingCentreComponent } from './gaming-centre/gaming-centre.component';
+import { FourInALineComponent } from './four-in-a-line/four-in-a-line.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +36,8 @@ import { ConversationsCentreComponent } from './conversations-centre/conversatio
         ConversationStartFormComponent,
         NotificationsComponent,
         ConversationsCentreComponent,
+        GamingCentreComponent,
+        FourInALineComponent,
     ],
     imports: [
         BrowserModule,
@@ -41,7 +46,8 @@ import { ConversationsCentreComponent } from './conversations-centre/conversatio
         HttpClientModule,
         FormsModule,
         TagInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        AutocompleteLibModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

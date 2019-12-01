@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { ConversationsCentreComponent } from './conversations-centre/conversations-centre.component';
+import { GamingCentreComponent } from './gaming-centre/gaming-centre.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
     { path: 'register', component: RegisterFormComponent },
     { path: 'user', component: UserPanelComponent, canActivate: [AuthGuard] },
     { path: 'conversations/:id', component: ConversationComponent, canActivate: [AuthGuard] },
-    { path: 'conversations', component: ConversationsCentreComponent, canActivate: [AuthGuard] }
+    { path: 'conversations', component: ConversationsCentreComponent, canActivate: [AuthGuard] },
+    { path: 'gaming', component: GamingCentreComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

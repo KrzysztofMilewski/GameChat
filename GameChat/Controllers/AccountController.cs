@@ -59,7 +59,7 @@ namespace GameChat.Web.Controllers
         public async Task<IActionResult> GetUsers([FromQuery]string username)
         {
             var users = await _userService.GetUsers(filter: username);
-            return Ok(users);
+            return Ok(users.Data);
         }
     }
 }
