@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../models/user';
+import { FourInALineService } from '../services/four-in-a-line.service';
 
 @Component({
     selector: 'app-four-in-a-line',
@@ -7,11 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FourInALineComponent implements OnInit {
 
-    constructor() {
+    @Input() challengedUser: User
+
+    constructor(private fourInALineService: FourInALineService) {
         console.log("4 in a line - ctor");
     }
 
     ngOnInit() {
-        console.log("4 in a line - init");
+        this.fourInALineService.startConnectionAndSendChallenge(this.challengedUser.id)
     }
 }

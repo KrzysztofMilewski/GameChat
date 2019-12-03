@@ -1,30 +1,36 @@
 <div class="row mx-2 mt-2 justify-content-center">
     <div class="col py-3 shadow bg-white rounded">
-        <h3>Online games</h3>
-        <hr />
-        <p>Challenge someone in Four in a line!</p>
-        <hr />
+        <div *ngIf="!userReady">
+            <h3>Online games</h3>
+            <hr />
+            <p>Challenge someone in Four in a line!</p>
+            <hr />
 
-        <form #form="ngForm">
-            <div class="ng-autocomplete">
-                <ng-autocomplete required
-                                 [data]="users"
-                                 [searchKeyword]="keyword"
-                                 [itemTemplate]="itemTemplate"
-                                 [minQueryLength]="3"
-                                 [(ngModel)]="selectedUser"
-                                 [historyHeading]="null"
-                                 name="selectedUser"
-                                 (inputChanged)="fetchUsers($event)"
-                                 [debounceTime]="500">
-                </ng-autocomplete>
+            <form #form="ngForm">
+                <div class="ng-autocomplete">
+                    <ng-autocomplete required
+                                     [data]="users"
+                                     [searchKeyword]="keyword"
+                                     [itemTemplate]="itemTemplate"
+                                     [minQueryLength]="3"
+                                     [(ngModel)]="selectedUser"
+                                     [historyHeading]="null"
+                                     name="selectedUser"
+                                     (inputChanged)="fetchUsers($event)"
+                                     [debounceTime]="500">
+                    </ng-autocomplete>
 
-                <ng-template #itemTemplate let-item>
-                    <a [innerHTML]="item.username"></a>
-                </ng-template>
-            </div>
+                    <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.username"></a>
+                    </ng-template>
+                </div>
 
-            <button class="btn btn-primary mt-2" (click)="submitGameChallenge()" [disabled]="isUserInvalid || form.invalid">Challenge!</button>
-        </form>
+                <button class="btn btn-primary mt-2" (click)="submitGameChallenge()" [disabled]="isUserInvalid || form.invalid">Challenge!</button>
+            </form>
+        </div>
+
+        <div *ngIf="userReady">
+            <app-four-in-a-line [challengedUser]="selectedUser"></app-four-in-a-line>
+        </div>
     </div>
 </div>

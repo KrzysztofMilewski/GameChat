@@ -1,9 +1,11 @@
 export class Notifications {
     constructor() {
         this.messageNotifications = []
+        this.gameNotifications = []
     }
 
     messageNotifications: MessageNotification[]
+    gameNotifications: GameNotification[]
 }
 
 export class MessageNotification {
@@ -14,4 +16,16 @@ export class MessageNotification {
 
     conversationId: number
     quantityOfUnreadMessages: number
+}
+
+export class GameNotification {
+    constructor(gameName: string, challengingUserId: number, expirationDate: Date) {
+        this.gameName = gameName
+        this.challengingUserId = challengingUserId
+        this.expirationDate = expirationDate
+    }
+
+    gameName: string
+    challengingUserId: number
+    expirationDate: Date
 }

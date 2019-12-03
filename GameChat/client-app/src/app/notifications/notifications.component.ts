@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from '../services/notifications.service';
 import { Router } from '@angular/router';
-import { Notifications, MessageNotification } from '../models/notifications';
+import { Notifications, MessageNotification, GameNotification } from '../models/notifications';
 import { MessagesService } from '../services/messages.service';
 import { forkJoin } from 'rxjs';
 import { ConversationsService } from '../services/conversations.service';
@@ -46,6 +46,15 @@ export class NotificationsComponent implements OnInit {
         this.notificationsService.receiveMessageNotification(conversationId => {
             if (!this.router.url.includes('/conversations/' + conversationId))
                 this.addNotification(conversationId)
+        })
+
+        this.notificationsService.receiveGameChallenge(gameChallengeToken => {
+            let notification = new GameNotification(
+                gameChallengeToken.gameName,
+                gameChallengeToken.invitingPlayerId,
+                gameChallengeToken.expirationTime)
+
+            this.notifications.gameNotifications.push(notification)            
         })
     }
 

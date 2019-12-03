@@ -35,4 +35,8 @@ export class NotificationsService {
     registerCallbackForReadingMessages(callback) {
         this.readMessagesCallback = callback
     }
+
+    receiveGameChallenge(callback) {
+        this.hubConnection.on('GameChallenge', data => callback(data))
+    }
 }

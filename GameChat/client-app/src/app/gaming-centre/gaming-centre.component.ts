@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { UsersService } from '../services/users.service';
 import { FourInALineComponent } from '../four-in-a-line/four-in-a-line.component';
+import { setTimeout } from 'timers';
 
 @Component({
     selector: 'app-gaming-centre',
@@ -14,6 +15,7 @@ export class GamingCentreComponent implements OnInit {
     public users: User[] = []
     public selectedUser: User
     public currentUser: User
+    public userReady: boolean = false;
 
     public get isUserInvalid() {
         return typeof this.selectedUser == 'string'
@@ -35,6 +37,7 @@ export class GamingCentreComponent implements OnInit {
 
 
     submitGameChallenge() {
+        this.userReady = true
         console.log(this.selectedUser);
     }
 }
