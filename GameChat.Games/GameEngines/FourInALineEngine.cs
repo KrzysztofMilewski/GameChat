@@ -15,6 +15,7 @@ namespace GameChat.Games.GameEngines
         private readonly User _player1;
         private readonly User _player2;
         private FieldState[,] _board;
+        private bool _isGameActive;
 
         private void InitializeBoard()
         {
@@ -58,10 +59,18 @@ namespace GameChat.Games.GameEngines
 
         public int PlayerWhoHasTurn { get; private set; }
 
-        public FourInALineEngine(User player1, User player2)
+        public FourInALineEngine(int player1Id, int player2Id)
         {
-            _player1 = player1;
-            _player2 = player2;
+            _isGameActive = false;
+            _player1 = new User()
+            {
+                Id = player1Id
+            };
+
+            _player2 = new User()
+            {
+                Id = player2Id
+            };
 
             InitializeBoard();
             CoinFlip();

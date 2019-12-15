@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameChat.Core\GameChat.Core.csproj" />
+    <ProjectReference Include="..\GameChat.Games\GameChat.Games.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,4 +19,20 @@ export class FourInALineService {
             this.hubConnection.invoke('ChallengePlayer', playerId)
         })
     }
+
+    startConnection() {
+        this.hubConnection = new signalR.HubConnectionBuilder().
+            withUrl('http://localhost:5000/hub/fourinaline', { accessTokenFactory: () => localStorage.getItem('currentUser') }).
+            build()
+
+        this.hubConnection.start()
+    }
+
+    acceptChallenge(gameId: string) {
+        this.hubConnection.invoke('AcceptChallenge', gameId)
+    }
+
+    challengeAccepted(callback) {
+        this.hubConnection.on('Accepted', data => callback(data))
+    }
 }

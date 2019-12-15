@@ -1,1 +1,14 @@
-<p>four-in-a-line works!</p>
+<div *ngIf="!gameStarted">
+    <div *ngIf="challengedUser">
+        Waiting for the player to accept
+    </div>
+
+    <div *ngIf="gameToken">
+        somebody has challenged you
+        <button class="btn btn-primary" (click)="acceptChallenge()">Accept</button>
+    </div>
+</div>
+
+<div *ngIf="gameStarted">
+    Game is in progress 
+</div>

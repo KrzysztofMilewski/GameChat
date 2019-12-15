@@ -1,11 +1,12 @@
 <div class="dropdown mx-2">
     <div class="clickable" data-toggle="dropdown">
         <i class="fas fa-gamepad fa-lg text-white"></i>
+        <span class="badge badge-pill badge-warning" *ngIf="gameInvites">{{ gameInvites }}</span>
     </div>
 
     <div class="dropdown-menu p-0 dropdown-menu-right">
-        <div class="dropdown-item clickable">
-
+        <div class="dropdown-item clickable px-0 pb-0 pt-2" *ngFor="let g of notifications.gameNotifications" (click)="navigateToGaming()">
+            <strong>{{ g.gameName }}</strong>
         </div>
     </div>
 </div>

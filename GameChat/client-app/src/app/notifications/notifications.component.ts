@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from '../services/notifications.service';
 import { Router } from '@angular/router';
-import { Notifications, MessageNotification, GameNotification } from '../models/notifications';
-import { MessagesService } from '../services/messages.service';
+import { Notifications, MessageNotification, GameToken } from '../models/notifications';
 import { forkJoin } from 'rxjs';
 import { ConversationsService } from '../services/conversations.service';
 import { Conversation } from '../models/conversation';
@@ -21,8 +20,7 @@ export class NotificationsComponent implements OnInit {
     constructor(
         private notificationsService: NotificationsService,
         private router: Router,
-        private conversationsService: ConversationsService)
-    {
+        private conversationsService: ConversationsService) {
         this.notifications = new Notifications()
         this.conversations = []
         this.dropdownUpToDate = false
@@ -49,17 +47,22 @@ export class NotificationsComponent implements OnInit {
         })
 
         this.notificationsService.receiveGameChallenge(gameChallengeToken => {
-            let notification = new GameNotification(
+            let notification = new GameToken(
+                gameChallengeToken.gameId,
                 gameChallengeToken.gameName,
                 gameChallengeToken.invitingPlayerId,
                 gameChallengeToken.expirationTime)
 
-            this.notifications.gameNotifications.push(notification)            
+            this.notifications.gameNotifications.push(notification)
         })
     }
 
     get unreadConversations() {
         return this.notifications.messageNotifications.length
+    }
+
+    get gameInvites() {
+        return this.notifications.gameNotifications.length
     }
 
     getConversationsInfo() {
@@ -89,6 +92,12 @@ export class NotificationsComponent implements OnInit {
 
     clearNotifications() {
         this.notifications.messageNotifications.length = 0
+    }
+
+
+    //TODO Add searching by ID
+    navigateToGaming() {
+        this.router.navigate(['/gaming'], { state: { gameToken: this.notifications.gameNotifications[0] } })
     }
 
     private addNotification(response: number) {

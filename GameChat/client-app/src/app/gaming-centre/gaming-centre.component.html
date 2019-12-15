@@ -1,6 +1,6 @@
 <div class="row mx-2 mt-2 justify-content-center">
     <div class="col py-3 shadow bg-white rounded">
-        <div *ngIf="!userReady">
+        <div *ngIf="!userReady && !gameToken">
             <h3>Online games</h3>
             <hr />
             <p>Challenge someone in Four in a line!</p>
@@ -29,8 +29,8 @@
             </form>
         </div>
 
-        <div *ngIf="userReady">
-            <app-four-in-a-line [challengedUser]="selectedUser"></app-four-in-a-line>
+        <div *ngIf="userReady || gameToken">
+            <app-four-in-a-line [challengedUser]="selectedUser" [gameToken]="gameToken"></app-four-in-a-line>
         </div>
     </div>
 </div>

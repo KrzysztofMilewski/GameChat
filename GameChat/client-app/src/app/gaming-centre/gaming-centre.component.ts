@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import { UsersService } from '../services/users.service';
 import { FourInALineComponent } from '../four-in-a-line/four-in-a-line.component';
 import { setTimeout } from 'timers';
+import { GameToken } from '../models/notifications';
 
 @Component({
     selector: 'app-gaming-centre',
@@ -16,6 +17,7 @@ export class GamingCentreComponent implements OnInit {
     public selectedUser: User
     public currentUser: User
     public userReady: boolean = false;
+    public gameToken: GameToken
 
     public get isUserInvalid() {
         return typeof this.selectedUser == 'string'
@@ -26,6 +28,8 @@ export class GamingCentreComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.gameToken = history.state.gameToken
+        console.log(this.gameToken);
     }
 
     fetchUsers($event) {
@@ -38,6 +42,5 @@ export class GamingCentreComponent implements OnInit {
 
     submitGameChallenge() {
         this.userReady = true
-        console.log(this.selectedUser);
     }
 }
