@@ -29,7 +29,6 @@ export class GamingCentreComponent implements OnInit {
 
     ngOnInit() {
         this.gameToken = history.state.gameToken
-        console.log(this.gameToken);
     }
 
     fetchUsers($event) {

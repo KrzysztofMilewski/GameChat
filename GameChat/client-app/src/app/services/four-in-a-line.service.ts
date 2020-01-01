@@ -33,6 +33,6 @@ export class FourInALineService {
     }
 
     challengeAccepted(callback) {
-        this.hubConnection.on('Accepted', data => callback(data))
+        this.hubConnection.on('Accepted', (gameId, board)  => callback(gameId, board))
     }
 }

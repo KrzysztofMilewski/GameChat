@@ -1,5 +1,5 @@
 ﻿using GameChat.Core.DTOs;
-using GameChat.Games.GameEngines;
+using GameChat.Games.FourInALine;
 using GameChat.Web.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -40,7 +40,23 @@ namespace GameChat.Web.Hubs
         public async Task AcceptChallenge(Guid gameId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, "GameId: " + gameId.ToString());
-            await Clients.Group("GameId: " + gameId.ToString()).SendAsync("Accepted");
+            var initialBoardState = _activeGames[gameId].GetBoardState();
+            await Clients.Group("GameId: " + gameId.ToString()).SendAsync("Accepted", gameId, initialBoardState);
+        }
+
+        //TODO Add Handler in client-side
+        public async Task MakeMove(Guid gameId, int xCoordinate)
+        {
+            var currentUserId = Context.User.GetUserId();
+            var gameInstance = _activeGames[gameId];
+
+            if (gameInstance.PlayerWhoHasTurn != currentUserId)
+                return;
+
+            gameInstance.PlaceDisc(xCoordinate, currentUserId);
+
+            var boardState = gameInstance.GetBoardState();
+            await Clients.Group("GameId: " + gameId.ToString()).SendAsync("DiscPlaced", boardState);
         }
     }
 }

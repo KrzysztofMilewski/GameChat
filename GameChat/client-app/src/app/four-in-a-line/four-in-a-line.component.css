@@ -1,0 +1,42 @@
+.cst {
+    width: 12.5%;
+    padding-top: 12.5%;
+    border-radius: 0;
+    border: 1px solid black;
+}
+
+.cst:disabled{
+    opacity: 1 !important;
+}
+
+.cst-free:hover{
+    filter: brightness(150%);
+}
+
+.cst-free{
+    background-color:burlywood;
+}
+
+.cst-mine{
+    background-color: seagreen;
+    
+}
+
+.cst-enemy{
+    background-color: darkred;
+}
+
+.game-board-content{
+    float: left;
+}
+
+.game-board {
+    position: relative;
+    width: 100%;
+}
+
+.game-board:before{
+    padding-top: 100%;
+    float: left;
+    content: "";
+}
