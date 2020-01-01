@@ -35,4 +35,16 @@ export class FourInALineService {
     challengeAccepted(callback) {
         this.hubConnection.on('Accepted', (gameId, board)  => callback(gameId, board))
     }
+
+    makeMove(gameId: string, xCoordinate: number) {
+        this.hubConnection.invoke('MakeMove', gameId, xCoordinate)
+    }
+
+    discPlacedByEnemy(callback) {
+        this.hubConnection.on('DiscPlaced', data=>callback(data))
+    }
+
+    announceWinner(callback) {
+        this.hubConnection.on('AnnounceWinner', data => callback(data))
+    }
 }

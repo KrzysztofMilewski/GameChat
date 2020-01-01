@@ -15,40 +15,18 @@
 
     <div class="game-board">
 
-        <!--<ng-template ngFor let-array [ngForOf]="gameBoard" let-y="index">
-            <ng-template ngFor let-state [ngForOf]="array" let-x="index">
-                <button class="btn cst" [disabled]="state!=0" [class.cst-free]="state==0" [class.cst-mine]="state==1" [class.cst-enemy]="state==2">
-                    
-                </button>
-            </ng-template>
-        </ng-template>-->
+        <ng-template ngFor let-f [ngForOf]="board">
+            <button class="btn cst"
+                    [disabled]="f.fieldState!=0 || !gameFinished"
+                    [class.cst-free]="f.fieldState==0"
+                    [class.cst-mine]="f.fieldState==1"
+                    [class.cst-enemy]="f.fieldState==2"
+                    (click)="makeMove(f.x)">
+            </button>
+        </ng-template>
 
-        <!--<button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-                               
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-mine"></button>
-        <button class="btn cst cst-mine"></button>
-        <button class="btn cst cst-mine"></button>
-        <button class="btn cst cst-mine"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-                               
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-free"></button>
-        <button class="btn cst cst-enemy"></button>
-        <button class="btn cst cst-enemy"></button>
-        <button class="btn cst cst-enemy"></button>
-        <button class="btn cst cst-enemy"></button>
-        <button class="btn cst cst-enemy"></button>-->
-
+        <div *ngIf="gameFinished">
+            Game won by {{ winnerId }}
+        </div>
     </div>
 </div>

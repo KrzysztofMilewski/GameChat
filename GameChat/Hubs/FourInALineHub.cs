@@ -44,7 +44,6 @@ namespace GameChat.Web.Hubs
             await Clients.Group("GameId: " + gameId.ToString()).SendAsync("Accepted", gameId, initialBoardState);
         }
 
-        //TODO Add Handler in client-side
         public async Task MakeMove(Guid gameId, int xCoordinate)
         {
             var currentUserId = Context.User.GetUserId();
@@ -56,7 +55,11 @@ namespace GameChat.Web.Hubs
             gameInstance.PlaceDisc(xCoordinate, currentUserId);
 
             var boardState = gameInstance.GetBoardState();
+
             await Clients.Group("GameId: " + gameId.ToString()).SendAsync("DiscPlaced", boardState);
+
+            if (gameInstance.GameEnded)
+                await Clients.Group("GameId: " + gameId.ToString()).SendAsync("AnnounceWinner", gameInstance.WinnerId);
         }
     }
 }

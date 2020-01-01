@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameChat.Games.FourInALine
@@ -10,18 +11,20 @@ namespace GameChat.Games.FourInALine
         private readonly int _player2;
         private GameBoard _board;
 
+        private void OnGameEnded()
+        {
+            GameEnded = true;
+        }
 
         private void CoinFlip()
         {
-            PlayerWhoHasTurn = _player1;
+            var random = new Random();
+            var coinflip = random.NextDouble();
 
-            //var random = new Random();
-            //var coinflip = random.NextDouble();
-
-            //if (coinflip <= 0.5d)
-            //    PlayerWhoHasTurn = _player1.Id;
-            //else
-            //    PlayerWhoHasTurn = _player2.Id;
+            if (coinflip <= 0.5d)
+                PlayerWhoHasTurn = _player1;
+            else
+                PlayerWhoHasTurn = _player2;
         }
 
         private FieldState FromPlayerId(int playerId)
@@ -41,6 +44,17 @@ namespace GameChat.Games.FourInALine
         }
 
         public int PlayerWhoHasTurn { get; private set; }
+        public bool GameEnded { get; private set; }
+        public int? WinnerId
+        {
+            get
+            {
+                if (GameEnded)
+                    return PlayerWhoHasTurn;
+                else
+                    return null;
+            }
+        }
 
         public FourInALineEngine(int player1, int player2)
         {
@@ -60,6 +74,9 @@ namespace GameChat.Games.FourInALine
 
         public void PlaceDisc(int x, int playerId)
         {
+            if (GameEnded)
+                return;
+
             if (playerId != PlayerWhoHasTurn)
                 return;
 
@@ -67,20 +84,15 @@ namespace GameChat.Games.FourInALine
                 return;
 
             if (!SearchForEmptyBottomField(x, out int y))
-            {
                 return;
-            }
+
 
             _board[x, y] = FromPlayerId(playerId);
 
             if (IsGameOver(x, y))
-                AnnounceResult();
+                OnGameEnded();
             else
                 ChangePlayer();
-        }
-
-        private void AnnounceResult()
-        {
         }
 
         private bool IsGameOver(int x, int y)

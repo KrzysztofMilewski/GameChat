@@ -19,6 +19,9 @@ export class FourInALineComponent implements OnInit {
     gameStarted: boolean
     gameId: string
 
+    winnerId: number
+    gameFinished: boolean = false
+
     constructor(private fourInALineService: FourInALineService) {
 
     }
@@ -29,13 +32,26 @@ export class FourInALineComponent implements OnInit {
         else
             this.fourInALineService.startConnection()
 
-        this.fourInALineService.challengeAccepted((gameId, board) => {
+        this.fourInALineService.challengeAccepted((gameId, board: FourInALineField[]) => {
             this.gameStarted = true
             this.gameId = gameId
             this.board = board
 
             console.log(this.board);
         })
+
+        this.fourInALineService.discPlacedByEnemy((data: FourInALineField[]) => {
+            this.board = data
+        })
+
+        this.fourInALineService.announceWinner((data: number) => {
+            this.winnerId = data
+            this.gameFinished = true
+        })
+    }
+
+    makeMove(x: number) {
+        this.fourInALineService.makeMove(this.gameId, x)
     }
 
     acceptChallenge() {
