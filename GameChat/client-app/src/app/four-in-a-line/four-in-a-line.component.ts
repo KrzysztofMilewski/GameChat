@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../models/user';
 import { FourInALineService } from '../services/four-in-a-line.service';
 import { GameToken } from '../models/notifications';
@@ -13,6 +13,7 @@ export class FourInALineComponent implements OnInit {
 
     @Input() challengedUser: User
     @Input() gameToken: GameToken
+    @Output() finishedGameEvent = new EventEmitter()
 
     public board: FourInALineField[]
 
@@ -36,8 +37,6 @@ export class FourInALineComponent implements OnInit {
             this.gameStarted = true
             this.gameId = gameId
             this.board = board
-
-            console.log(this.board);
         })
 
         this.fourInALineService.discPlacedByEnemy((data: FourInALineField[]) => {
@@ -46,7 +45,10 @@ export class FourInALineComponent implements OnInit {
 
         this.fourInALineService.announceWinner((data: number) => {
             this.winnerId = data
-            this.gameFinished = true
+            this.gameFinished = true;
+
+            (<any>$('#winner-modal')).modal()
+            
         })
     }
 
@@ -56,6 +58,10 @@ export class FourInALineComponent implements OnInit {
 
     acceptChallenge() {
         this.fourInALineService.acceptChallenge(this.gameToken.gameId)
+    }
+
+    redirectToMainPage() {
+        this.finishedGameEvent.emit()
     }
 
     private makeChallenge() {

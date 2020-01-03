@@ -94,8 +94,6 @@ export class NotificationsComponent implements OnInit {
         this.notifications.messageNotifications.length = 0
     }
 
-
-    //TODO Add searching by ID
     navigateToGaming() {
         this.router.navigate(['/gaming'], { state: { gameToken: this.notifications.gameNotifications[0] } })
     }

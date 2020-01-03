@@ -38,6 +38,11 @@ export class GamingCentreComponent implements OnInit {
             })
     }
 
+    reloadComponent() {
+        this.userReady = false
+        delete this.gameToken
+        delete this.selectedUser
+    }
 
     submitGameChallenge() {
         this.userReady = true
