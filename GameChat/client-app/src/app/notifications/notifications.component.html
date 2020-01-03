@@ -5,7 +5,10 @@
     </div>
 
     <div class="dropdown-menu p-0 dropdown-menu-right">
-        <div class="dropdown-item clickable px-0 pb-0 pt-2" *ngFor="let g of notifications.gameNotifications" (click)="navigateToGaming()">
+        <div class="dropdown-item clickable px-0 pb-0 pt-2" *ngFor="let g of notifications.gameNotifications" (click)="navigateToGaming(g.gameId)">
+            Challenged by:
+            <strong>{{g.challengingUser.username}}</strong>
+            to play 
             <strong>{{ g.gameName }}</strong>
         </div>
     </div>

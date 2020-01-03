@@ -17,4 +17,8 @@ export class UsersService {
     getCurrentUser() {
         return this.http.get(this.endpoint + '/current')
     }
+
+    getUserById(id: number) {
+        return this.http.get(this.endpoint + '/' + id)
+    }
 }

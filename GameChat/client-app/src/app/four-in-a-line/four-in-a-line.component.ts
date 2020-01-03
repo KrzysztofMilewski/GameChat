@@ -11,20 +11,65 @@ import { FourInALineField } from '../models/fourInALineField';
 })
 export class FourInALineComponent implements OnInit {
 
+    @Input() currentUser: User
     @Input() challengedUser: User
     @Input() gameToken: GameToken
     @Output() finishedGameEvent = new EventEmitter()
 
     public board: FourInALineField[]
 
-    gameStarted: boolean
-    gameId: string
+    public gameStarted: boolean
+    public gameId: string
+    public gameFinished: boolean = false
 
-    winnerId: number
-    gameFinished: boolean = false
+
+    private winnerId: number
 
     constructor(private fourInALineService: FourInALineService) {
 
+    }
+
+    isFieldMine(playerField: number) {
+        if (playerField == 1) {
+            if (this.player1 == this.currentUser)
+                return true;
+            else
+                return false;
+        }
+        else {
+            if (this.player2 == this.currentUser)
+                return true;
+            else
+                return false;
+        }
+    }
+
+    get player1() {
+        if (this.challengedUser)
+            return this.currentUser
+        else
+            return this.gameToken.challengingUser
+    }
+
+    get player2() {
+        if (this.gameToken)
+            return this.currentUser
+        else
+            return this.challengedUser
+    }
+
+    get opponent() {
+        if (this.challengedUser)
+            return this.challengedUser
+        else
+            return this.gameToken.challengingUser
+    }
+
+    get winner() {
+        if (this.winnerId == this.player1.id)
+            return this.player1
+        else
+            return this.player2
     }
 
     ngOnInit() {

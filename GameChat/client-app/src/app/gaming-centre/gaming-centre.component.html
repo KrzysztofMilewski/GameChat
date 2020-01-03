@@ -30,7 +30,7 @@
         </div>
 
         <div *ngIf="userReady || gameToken">
-            <app-four-in-a-line [challengedUser]="selectedUser" [gameToken]="gameToken" (finishedGameEvent)="reloadComponent()"></app-four-in-a-line>
+            <app-four-in-a-line [challengedUser]="selectedUser" [currentUser]="currentUser" [gameToken]="gameToken" (finishedGameEvent)="reloadComponent()"></app-four-in-a-line>
         </div>
     </div>
 </div>

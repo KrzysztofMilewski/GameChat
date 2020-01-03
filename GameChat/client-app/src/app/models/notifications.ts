@@ -21,11 +21,10 @@ export class MessageNotification {
 }
 
 export class GameToken {
-    constructor(gameId: string, gameName: string, challengingUserId: number, expirationDate: Date) {
+    constructor(gameId: string, gameName: string, challengingUser: User, expirationDate: Date) {
         this.gameId = gameId
         this.gameName = gameName
-        this.challengingUser = new User()
-        this.challengingUser.id = challengingUserId
+        this.challengingUser = challengingUser
         this.expirationDate = expirationDate
     }
 

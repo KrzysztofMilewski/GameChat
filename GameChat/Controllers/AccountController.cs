@@ -61,5 +61,16 @@ namespace GameChat.Web.Controllers
             var users = await _userService.GetUsers(filter: username);
             return Ok(users.Data);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser(int id)
+        {
+            var result = await _userService.GetUserById(id);
+
+            if (result.Success)
+                return Ok(result.Data);
+            else
+                return NotFound();
+        }
     }
 }

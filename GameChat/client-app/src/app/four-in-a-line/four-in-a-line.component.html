@@ -17,13 +17,13 @@
             <button class="btn cst"
                     [disabled]="f.fieldState!=0 || gameFinished"
                     [class.cst-free]="f.fieldState==0"
-                    [class.cst-mine]="f.fieldState==1"
-                    [class.cst-enemy]="f.fieldState==2"
+                    [class.cst-mine]="isFieldMine(f.fieldState) && f.fieldState!=0"
+                    [class.cst-enemy]="!isFieldMine(f.fieldState) && f.fieldState!=0"
                     (click)="makeMove(f.x)">
             </button>
         </ng-template>
 
-        
+
     </div>
 </div>
 
@@ -33,7 +33,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div *ngIf="gameFinished">
-                    Game won by {{ winnerId }}
+                    Game won by {{ winner.username }}
                 </div>
             </div>
             <div class="modal-footer">

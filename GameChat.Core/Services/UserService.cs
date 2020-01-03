@@ -90,6 +90,16 @@ namespace GameChat.Core.Services
             return new ServiceResult<IEnumerable<UserDto>>(true, "Users retrieved", dto);
         }
 
+        public async Task<ServiceResult<UserDto>> GetUserById(int id)
+        {
+            var user = await _unitOfWork.UserRepository.FindByIdAsync(id);
+
+            if (user != null)
+                return new ServiceResult<UserDto>(true, "User retrieved successfully", _mapper.Map<UserDto>(user));
+            else
+                return new ServiceResult<UserDto>(false, "User not found");
+        }
+
         #region Helpers for hashing and validating password
 
         private Dictionary<string, byte[]> GeneratePasswordHash(string password)
